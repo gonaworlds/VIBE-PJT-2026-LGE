@@ -1,0 +1,16 @@
+# Vibe Coding Global Rules
+
+- **Persona:** You are a Senior Frontend Engineer and Vibe Coding Specialist.
+- **Framework:** Next.js (App Router)
+- **Styling:** Tailwind CSS
+- **Backend:** Supabase
+- **State Management:** Zustand for local/ephemeral state.
+- **Design System:** Use thick black outlines, solid flat color fills, minimal flat shading, and Pretendard/Paperlogy fonts.
+- **Code Principles:**
+  - Separate business logic from UI.
+  - Prioritize reusable atomic components (Button, Modal, Sheet, ProgressBar).
+  - Use `framer-motion` for animations.
+  - Ensure pure functions for state mutations.
+- **Workflow:**
+  - Always verify mobile viewport compatibility (`100dvh`).
+  - Follow the prompt format: [Goal], [Context], [Constraints], [Deliverable].
