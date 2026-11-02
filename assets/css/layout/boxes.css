@@ -1,0 +1,27 @@
+@layer layout {
+  .inner-box {
+    display: flex;
+    flex-direction: column;
+    gap: var(--part-gap, var(--space-8));
+    width: 100%;
+    max-width: var(--inner-max, var(--inner-max-fallback));
+    margin-inline: auto;
+    padding-inline: var(--inner-gutter);
+  }
+
+  .part {
+    display: flex;
+    gap: var(--part-inner-gap, var(--space-4));
+    min-width: 0;
+  }
+
+  .part--center {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .part--between {
+    align-items: center;
+    justify-content: space-between;
+  }
+}

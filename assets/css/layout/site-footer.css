@@ -1,0 +1,14 @@
+@layer layout {
+  .site-footer {
+    --inner-max: var(--footer-inner-max);
+    flex: 0 0 auto;
+    border-block-start: 1px solid var(--color-border);
+    padding-block: var(--space-2);
+  }
+
+  @media (min-width: 67.5rem) {
+    .site-footer {
+      --inner-gutter: 0;
+    }
+  }
+}

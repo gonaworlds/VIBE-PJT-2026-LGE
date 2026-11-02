@@ -1,0 +1,93 @@
+@layer layout {
+  .site-header {
+    --inner-max: var(--header-inner-max);
+  }
+
+  .site-header .inner-box {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding-block: var(--space-2);
+  }
+
+  .site-header .part {
+    flex: 0 1 100%;
+    justify-content: space-between;
+    max-width: var(--header-content-max);
+  }
+
+  .site-header__brand {
+    display: inline-flex;
+    flex: 0 1 auto;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: var(--language-control-size);
+    padding-inline: var(--space-2);
+    border: var(--border-placeholder);
+    border-radius: var(--radius-md);
+    color: var(--color-primary);
+    font-size: var(--text-ui-sm);
+    font-weight: 700;
+    line-height: var(--line-height-ui);
+    white-space: nowrap;
+  }
+
+  .site-language {
+    position: relative;
+    flex: 0 1 auto;
+    color: var(--color-text-secondary);
+    font-size: var(--text-ui-sm);
+    font-weight: 700;
+  }
+
+  .site-language__summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--language-control-size);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .site-language__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .site-language__chevron {
+    inline-size: var(--space-2);
+    block-size: var(--space-2);
+    border-block-end: 1px solid currentColor;
+    border-inline-end: 1px solid currentColor;
+    transform: translateY(-0.125rem) rotate(45deg);
+  }
+
+  .site-language[open] .site-language__chevron {
+    transform: translateY(0.125rem) rotate(225deg);
+  }
+
+  .site-language__panel {
+    position: absolute;
+    inset-block-start: 100%;
+    inset-inline-end: 0;
+    z-index: var(--z-overlay);
+    min-width: var(--language-panel-min-width);
+    padding: var(--space-3) var(--space-4);
+    border: var(--border-card);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: var(--text-ui);
+    font-weight: 400;
+  }
+
+  @media (min-width: 48rem) {
+    .site-header .inner-box {
+      padding-block: var(--space-1);
+    }
+
+    .site-header .part {
+      flex-basis: var(--header-content-max);
+    }
+  }
+}

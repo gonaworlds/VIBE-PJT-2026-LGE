@@ -1,0 +1,116 @@
+:root {
+  color-scheme: light;
+
+  --color-feather-green: #58cc02;
+  --color-tree-green: #58a700;
+  --color-mask-green: #89e219;
+  --color-macaw: #1cb0f6;
+  --color-whale: #1899d6;
+  --color-cardinal: #ff4b4b;
+  --color-cardinal-dark: #ea2b2b;
+  --color-bee: #ffc800;
+  --color-fox: #ff9600;
+  --color-beetle: #ce82ff;
+  --color-eel: #4b4b4b;
+  --color-wolf: #777777;
+  --color-hare: #afafaf;
+  --color-swan: #e5e5e5;
+  --color-polar: #f7f7f7;
+  --color-snow: #ffffff;
+  --color-macaw-tint: #ddf4ff;
+  --color-green-tint: #d7ffb8;
+  --color-green-tint-border: #a5ed6e;
+  --color-red-tint: #ffdfe0;
+  --color-red-tint-border: #ffb3b3;
+  --color-red-tint-field: #fff0f0;
+
+  --color-bg: var(--color-snow);
+  --color-bg-subtle: var(--color-polar);
+  --color-text: var(--color-eel);
+  --color-text-secondary: #757575;
+  --color-text-disabled: var(--color-hare);
+  --color-border: var(--color-swan);
+  --color-primary: var(--color-feather-green);
+  --color-primary-lip: var(--color-tree-green);
+  --color-accent: var(--color-macaw);
+  --color-accent-lip: var(--color-whale);
+  --color-danger: var(--color-cardinal);
+  --color-danger-lip: var(--color-cardinal-dark);
+  --color-reward: var(--color-bee);
+  --color-streak: var(--color-fox);
+  --color-focus: var(--color-whale);
+
+  --font-display: "Nunito", "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+  --font-body: "Nunito", "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+
+  --text-page-title-lg: 2.5rem;
+  --text-page-title-sm: 2rem;
+  --text-heading-lg: 1.75rem;
+  --text-heading-md: 1.5rem;
+  --text-heading-sm: 1.25rem;
+  --text-heading-xs: 1rem;
+  --text-body: 1.25rem;
+  --text-caption: 1rem;
+  --text-ui: 0.9375rem;
+  --text-ui-sm: 0.875rem;
+  --text-ui-lg: 1.0625rem;
+  --text-label-md: 1rem;
+  --line-height-heading: 1.25;
+  --line-height-body: 1.4;
+  --line-height-ui: 1;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-circle: 50%;
+  --radius-full: 9999px;
+
+  --border-card: 2px solid var(--color-border);
+  --border-placeholder: 2px dashed var(--color-border);
+  --focus-outline: 2px solid var(--color-focus);
+  --focus-outline-offset: 0.25rem;
+  --shadow-lip-border: 0 2px 0 var(--color-border);
+  --lip-height: 0.25rem;
+  --z-behind: -1;
+  --z-raised: 1;
+  --z-sticky: 100;
+  --z-overlay: 300;
+  --z-modal: 320;
+
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --inner-max-fallback: 120rem;
+  --inner-gutter: var(--space-8);
+  --header-inner-max: 64.75rem;
+  --header-content-max: 44rem;
+  --footer-inner-max: 61.75rem;
+  --language-panel-min-width: 12rem;
+  --language-strip-max: 50rem;
+  --hero-art-size: 15.5rem;
+  --hero-art-mobile-size: 12.5rem;
+  --hero-copy-size: 21.25rem;
+  --hero-action-max: 14.75rem;
+  --hero-gap: var(--space-12);
+  --button-height: 3.125rem;
+  --language-control-size: 2.75rem;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --inner-gutter: var(--space-10);
+  }
+}
