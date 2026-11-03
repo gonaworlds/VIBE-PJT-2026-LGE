@@ -40,8 +40,8 @@
   --color-streak: var(--color-fox);
   --color-focus: var(--color-whale);
 
-  --font-display: "Nunito", "Pretendard", "Noto Sans KR", system-ui, sans-serif;
-  --font-body: "Nunito", "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+  --font-display: "Duolingo Sans", "Feather", "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+  --font-body: "Duolingo Sans", "Feather", "Pretendard", "Noto Sans KR", system-ui, sans-serif;
 
   --text-page-title-lg: 2.5rem;
   --text-page-title-sm: 2rem;
@@ -96,23 +96,23 @@
   --inner-max-fallback: 120rem;
   --inner-gutter: var(--space-8);
   --header-inner-max: 64.75rem;
-  --header-content-max: 44rem;
   --header-height: 3.25rem;
-  --footer-inner-max: 61.75rem;
+  --footer-inner-max: 68rem;
   --footer-height: 3.5rem;
   --language-panel-min-width: 12rem;
-  --language-strip-max: 50rem;
-  --hero-art-size: 15.5rem;
-  --hero-art-mobile-size: 12.5rem;
-  --hero-copy-size: 21.25rem;
-  --hero-action-max: 14.75rem;
-  --hero-gap: var(--space-12);
-  --hero-tablet-gap: var(--space-8);
+  --language-strip-max: 68rem;
+  --hero-art-size: 22rem;
+  --hero-art-mobile-size: 17rem;
+  --hero-art-compact-size: 11.25rem;
+  --hero-copy-size: 32rem;
+  --hero-action-max: 20.75rem;
+  --hero-gap: 4rem;
+  --hero-tablet-gap: 4rem;
   --hero-mobile-content-min: calc(50dvh - var(--space-5));
   --hero-mobile-section-pad: var(--space-3);
   --hero-title-mobile-offset: var(--space-16);
-  --hero-tablet-art-size: 17.5rem;
-  --hero-title-desktop: 1.5rem;
+  --hero-tablet-art-size: 22rem;
+  --hero-title-desktop: 2rem;
   --hero-title-mobile: 2rem;
   --button-height: 3.125rem;
   --language-control-size: 2.75rem;
@@ -121,5 +121,11 @@
 @media (min-width: 48rem) {
   :root {
     --inner-gutter: var(--space-10);
+  }
+}
+
+@media (max-width: 47.99rem) {
+  :root {
+    --header-height: 4.5rem;
   }
 }

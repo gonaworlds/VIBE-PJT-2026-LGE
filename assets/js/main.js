@@ -17,12 +17,6 @@ const initLanguageScroller = () => {
   const controller = new AbortController();
   const { signal } = controller;
 
-  const updateControls = () => {
-    const maxScroll = viewportEl.scrollWidth - viewportEl.clientWidth;
-    previousButtonEl.disabled = viewportEl.scrollLeft <= 0;
-    nextButtonEl.disabled = viewportEl.scrollLeft >= maxScroll - 1;
-  };
-
   const scrollByPage = (direction) => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     viewportEl.scrollBy({
@@ -33,10 +27,6 @@ const initLanguageScroller = () => {
 
   previousButtonEl.addEventListener("click", () => scrollByPage(-1), { signal });
   nextButtonEl.addEventListener("click", () => scrollByPage(1), { signal });
-  viewportEl.addEventListener("scroll", updateControls, { passive: true, signal });
-  window.addEventListener("resize", updateControls, { signal });
-
-  updateControls();
 
   return () => controller.abort();
 };

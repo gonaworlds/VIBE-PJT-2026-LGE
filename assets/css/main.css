@@ -6,7 +6,6 @@
 @import "./base/base.css" layer(base);
 @import "./layout/boxes.css" layer(layout);
 @import "./layout/site-header.css" layer(layout);
-@import "./layout/site-footer.css" layer(layout);
 @import "./components/button.css" layer(components);
 @import "./components/language-strip.css" layer(components);
 @import "./pages/landing.css" layer(pages);

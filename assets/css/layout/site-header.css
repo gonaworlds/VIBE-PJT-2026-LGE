@@ -1,25 +1,26 @@
 @layer layout {
   .site-header {
-    position: fixed;
-    inset-block-start: 0;
-    inset-inline: 0;
-    z-index: var(--z-sticky);
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+    min-block-size: 100dvh;
     --inner-max: var(--header-inner-max);
-    block-size: var(--header-height);
     background: var(--color-bg);
   }
 
-  .site-header .inner-box {
+  .site-header > .inner-box {
+    flex: 0 0 var(--header-height);
     flex-direction: row;
     align-items: center;
     justify-content: center;
     block-size: 100%;
+    padding-inline: var(--space-5);
   }
 
-  .site-header .part {
+  .site-header > .inner-box .part {
     flex: 0 1 100%;
     justify-content: space-between;
-    max-width: var(--header-content-max);
+    max-width: var(--header-inner-max);
     flex-wrap: nowrap;
   }
 
@@ -35,6 +36,12 @@
     font-weight: 700;
     line-height: var(--line-height-ui);
     white-space: nowrap;
+  }
+
+  .site-header__brand img {
+    display: block;
+    width: 11.1875rem;
+    height: auto;
   }
 
   .site-language {
@@ -85,8 +92,22 @@
     font-weight: 400;
   }
 
+  .site-header__languages {
+    flex: 0 0 var(--footer-height);
+    --inner-max: var(--footer-inner-max);
+    border-block-start: 1px solid var(--color-border);
+    background: var(--color-bg);
+    padding-block: var(--space-1);
+  }
+
+  @media (min-width: 67.5rem) {
+    .site-header__languages {
+      --inner-gutter: 0;
+    }
+  }
+
   @media (max-width: 67.4375rem) {
-    .site-header .part {
+    .site-header > .inner-box .part {
       justify-content: center;
     }
 
@@ -96,8 +117,22 @@
   }
 
   @media (min-width: 48rem) {
-    .site-header .part {
-      flex-basis: var(--header-content-max);
+    .site-header > .inner-box .part {
+      flex-basis: var(--header-inner-max);
+    }
+  }
+
+  @media (max-width: 47.99rem) {
+    .site-header__languages {
+      display: none;
+    }
+
+    .site-header__brand img {
+      width: 10rem;
+    }
+
+    .site-header > .inner-box {
+      padding-inline: var(--inner-gutter);
     }
   }
 }

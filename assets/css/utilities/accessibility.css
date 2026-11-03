@@ -3,7 +3,7 @@
     position: absolute;
     inset-block-start: var(--space-2);
     inset-inline-start: var(--space-2);
-    z-index: var(--z-sticky);
+    z-index: var(--z-overlay);
     padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-sm);
     background: var(--color-bg);

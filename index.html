@@ -17,7 +17,9 @@
     <header class="site-header">
       <div class="inner-box">
         <div class="part part--between">
-          <span class="site-header__brand">로고 자리표시</span>
+          <span class="site-header__brand">
+            <img src="./assets/images/nav_logo.svg" alt="Duolingo">
+          </span>
           <details class="site-language">
             <summary class="site-language__summary">
               사이트 언어: 한국어
@@ -27,14 +29,11 @@
           </details>
         </div>
       </div>
-    </header>
-
-    <main class="landing-main" id="main">
       <section class="section landing-section" aria-labelledby="landing-title">
         <div class="inner-box">
           <div class="part landing-hero">
             <figure class="landing-hero__art">
-              <figcaption>일러스트 자리표시 영역</figcaption>
+              <img src="./assets/images/header_hero.svg" alt="듀오링고 학습 일러스트">
             </figure>
             <div class="landing-hero__content">
               <h1 class="landing-hero__title" id="landing-title">
@@ -50,49 +49,175 @@
           </div>
         </div>
       </section>
-    </main>
-
-    <footer class="site-footer">
-      <div class="inner-box">
-        <div class="part part--center">
-          <div class="language-strip">
-            <button
-              class="language-strip__control"
-              type="button"
-              aria-label="이전 학습 언어"
-              data-js-language-prev
-            >
-              <span aria-hidden="true">‹</span>
-            </button>
-            <div
-              class="language-strip__viewport"
-              role="group"
-              aria-label="사용 가능한 학습 언어"
-              data-js-language-viewport
-            >
-              <ul class="language-strip__list" data-js-language-list>
-                <li class="language-strip__item"><span class="language-strip__flag" aria-hidden="true">🇺🇸</span>영어</li>
-                <li class="language-strip__item"><span class="language-strip__flag" aria-hidden="true">♟</span>체스</li>
-                <li class="language-strip__item"><span class="language-strip__flag" aria-hidden="true">🇪🇸</span>스페인어</li>
-                <li class="language-strip__item"><span class="language-strip__flag" aria-hidden="true">🇫🇷</span>프랑스어</li>
-                <li class="language-strip__item"><span class="language-strip__flag" aria-hidden="true">🇩🇪</span>독일어</li>
-                <li class="language-strip__item"><span class="language-strip__flag" aria-hidden="true">🇮🇹</span>이탈리아어</li>
-                <li class="language-strip__item"><span class="language-strip__flag" aria-hidden="true">🇧🇷</span>포르투갈어</li>
-                <li class="language-strip__item"><span class="language-strip__flag" aria-hidden="true">🇯🇵</span>일본어</li>
-                <li class="language-strip__item"><span class="language-strip__flag" aria-hidden="true">🇨🇳</span>중국어</li>
-              </ul>
+      <nav class="site-header__languages" aria-label="학습 언어">
+        <div class="inner-box">
+          <div class="part part--center">
+            <div class="language-strip">
+              <button
+                class="language-strip__control"
+                type="button"
+                aria-label="이전 학습 언어"
+                data-js-language-prev
+              >
+                <span aria-hidden="true">‹</span>
+              </button>
+              <div
+                class="language-strip__viewport"
+                role="group"
+                aria-label="사용 가능한 학습 언어"
+                data-js-language-viewport
+              >
+                <ul class="language-strip__list" data-js-language-list>
+                  <li class="language-strip__item"><img class="language-strip__flag" src="./assets/images/vendor/영어.svg" alt="" aria-hidden="true">영어</li>
+                  <li class="language-strip__item"><img class="language-strip__flag" src="./assets/images/vendor/체스.svg" alt="" aria-hidden="true">체스</li>
+                  <li class="language-strip__item"><img class="language-strip__flag" src="./assets/images/vendor/스페인어.svg" alt="" aria-hidden="true">스페인어</li>
+                  <li class="language-strip__item"><img class="language-strip__flag" src="./assets/images/vendor/프랑스어.svg" alt="" aria-hidden="true">프랑스어</li>
+                  <li class="language-strip__item"><img class="language-strip__flag" src="./assets/images/vendor/독일어.svg" alt="" aria-hidden="true">독일어</li>
+                  <li class="language-strip__item"><img class="language-strip__flag" src="./assets/images/vendor/이탈리아어.svg" alt="" aria-hidden="true">이탈리아어</li>
+                  <li class="language-strip__item"><img class="language-strip__flag" src="./assets/images/vendor/포루투갈어.svg" alt="" aria-hidden="true">포르투갈어</li>
+                  <li class="language-strip__item"><img class="language-strip__flag" src="./assets/images/vendor/일본어.svg" alt="" aria-hidden="true">일본어</li>
+                  <li class="language-strip__item"><img class="language-strip__flag" src="./assets/images/vendor/중국어.svg" alt="" aria-hidden="true">중국어</li>
+                </ul>
+              </div>
+              <button
+                class="language-strip__control"
+                type="button"
+                aria-label="다음 학습 언어"
+                data-js-language-next
+              >
+                <span aria-hidden="true">›</span>
+              </button>
             </div>
-            <button
-              class="language-strip__control"
-              type="button"
-              aria-label="다음 학습 언어"
-              data-js-language-next
-            >
-              <span aria-hidden="true">›</span>
-            </button>
           </div>
         </div>
+      </nav>
+    </header>
+
+    <main class="landing-main" id="main">
+      <div class="container">
+        <!-- Benefit Sections -->
+        <section class="benefit" aria-label="듀오링고 학습의 장점">
+          <section class="benefit__item" aria-labelledby="benefit-title-1">
+            <div class="benefit__copy">
+              <h2 class="benefit__title" id="benefit-title-1">재밌고 효과적인 무료 언어 학습</h2>
+              <p class="benefit__description">
+                듀오링고와 함께하는 학습은 재미있을 뿐 아니라,
+                <span class="benefit__highlight">그 효과도 입증되었어요!</span>
+                짤막한 레슨으로 포인트를 획득하고 새로운 레벨을 잠금 해제하면서
+                실생활 회화 능력을 키워보세요.
+              </p>
+            </div>
+            <img
+              class="benefit__image"
+              src="./assets/images/benefit_01.svg"
+              alt="학습 캐릭터와 함께 언어를 배우는 모습"
+            >
+          </section>
+
+          <section class="benefit__item benefit__item--reverse" aria-labelledby="benefit-title-2">
+            <div class="benefit__copy">
+              <h2 class="benefit__title" id="benefit-title-2">과학에 기반한 학습</h2>
+              <p class="benefit__description">
+                듀오링고는 연구를 통해 입증된 교수법과 재미있는 콘텐츠를 결합하여
+                읽기, 쓰기, 듣기, 말하기 능력을 효과적으로 가르치는 과정을 만들어냈습니다!
+              </p>
+            </div>
+            <img
+              class="benefit__image"
+              src="./assets/images/benefit_02.svg"
+              alt="과학 실험을 하며 학습하는 캐릭터"
+            >
+          </section>
+
+          <section class="benefit__item" aria-labelledby="benefit-title-3">
+            <div class="benefit__copy">
+              <h2 class="benefit__title" id="benefit-title-3">꾸준한 학습 동기 자극</h2>
+              <p class="benefit__description">
+                게임화된 학습 기능, 재미있는 도전, 그리고 친절한 부엉이 마스코트 듀오의
+                알림을 통해 언어 학습 습관을 쉽게 기를 수 있도록 도와드립니다.
+              </p>
+            </div>
+            <img
+              class="benefit__image"
+              src="./assets/images/benefit_03.svg"
+              alt="학습을 이어가도록 응원하는 캐릭터"
+            >
+          </section>
+
+          <section class="benefit__item benefit__item--reverse" aria-labelledby="benefit-title-4">
+            <div class="benefit__copy">
+              <h2 class="benefit__title" id="benefit-title-4">맞춤형 학습</h2>
+              <p class="benefit__description">
+                최고의 AI 및 언어 과학을 적용하여, 학습자에게 적합한 수준과 페이스로
+                학습할 수 있도록 맞춤 레슨을 제공합니다.
+              </p>
+            </div>
+            <img
+              class="benefit__image"
+              src="./assets/images/benefit_04.svg"
+              alt="각자에게 맞는 학습을 하는 두 캐릭터"
+            >
+          </section>
+        </section>
+        <!-- Downloads Section -->
+        <section class="downloads" aria-labelledby="downloads-title">
+          <div class="downloads__artwork" aria-hidden="true">
+            <img class="downloads__decorations" src="./assets/images/downloads_01.svg" alt="">
+            <img class="downloads__devices" src="./assets/images/downloads_02.svg" alt="">
+          </div>
+          <div class="downloads__content">
+            <h2 class="downloads__title" id="downloads-title">언제 어디서나 학습하세요</h2>
+            <div class="downloads__links">
+              <a
+                class="downloads__link"
+                href="https://apps.apple.com/app/duolingo-language-lessons/id570060128"
+                aria-label="Apple App Store에서 Duolingo 다운로드하기"
+              >
+                <img src="./assets/images/icon_appstore.svg" alt="" aria-hidden="true">
+                <span>Apple App Store에서<br>다운로드하기</span>
+              </a>
+              <a
+                class="downloads__link"
+                href="https://play.google.com/store/apps/details?id=com.duolingo"
+                aria-label="Google Play에서 Duolingo 다운로드하기"
+              >
+                <img src="./assets/images/icon_playstore.svg" alt="" aria-hidden="true">
+                <span>Google Play에서<br>다운로드하기</span>
+              </a>
+            </div>
+          </div>
+        </section>
       </div>
-    </footer>
+      <section class="try1week" aria-label="Super Duolingo 1주 무료 체험">
+        <div class="try1week__inner">
+          <img
+            class="try1week__owl"
+            src="./assets/images/try1week_owl.svg"
+            alt=""
+            aria-hidden="true"
+          >
+          <div class="try1week__content">
+            <div class="try1week__brand">
+              <picture>
+                <source
+                  media="(max-width: 48rem)"
+                  srcset="./assets/images/try1week_logo_mobile.svg"
+                >
+                <img
+                  class="try1week__logo"
+                  src="./assets/images/try1week_logo_desktop.svg"
+                  alt="Super Duolingo"
+                >
+              </picture>
+            </div>
+            <a class="try1week__button" href="https://www.duolingo.com/super">
+              1주 무료 체험하기
+            </a>
+          </div>
+        </div>
+      </section>
+      <section class="englishtest"></section>
+      <section class="getstarted"></section>
+    </main>
   </body>
 </html>
