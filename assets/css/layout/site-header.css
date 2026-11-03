@@ -1,19 +1,26 @@
 @layer layout {
   .site-header {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: 0;
+    z-index: var(--z-sticky);
     --inner-max: var(--header-inner-max);
+    block-size: var(--header-height);
+    background: var(--color-bg);
   }
 
   .site-header .inner-box {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    padding-block: var(--space-2);
+    block-size: 100%;
   }
 
   .site-header .part {
     flex: 0 1 100%;
     justify-content: space-between;
     max-width: var(--header-content-max);
+    flex-wrap: nowrap;
   }
 
   .site-header__brand {
@@ -23,9 +30,6 @@
     justify-content: center;
     min-width: 0;
     min-height: var(--language-control-size);
-    padding-inline: var(--space-2);
-    border: var(--border-placeholder);
-    border-radius: var(--radius-md);
     color: var(--color-primary);
     font-size: var(--text-ui-sm);
     font-weight: 700;
@@ -81,11 +85,17 @@
     font-weight: 400;
   }
 
-  @media (min-width: 48rem) {
-    .site-header .inner-box {
-      padding-block: var(--space-1);
+  @media (max-width: 67.4375rem) {
+    .site-header .part {
+      justify-content: center;
     }
 
+    .site-language {
+      display: none;
+    }
+  }
+
+  @media (min-width: 48rem) {
     .site-header .part {
       flex-basis: var(--header-content-max);
     }
