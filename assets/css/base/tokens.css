@@ -26,6 +26,7 @@
 
   --color-bg: var(--color-snow);
   --color-bg-subtle: var(--color-polar);
+  --color-container-scroll-bg: #dff5ff;
   --color-text: var(--color-eel);
   --color-text-secondary: #757575;
   --color-text-disabled: var(--color-hare);
@@ -40,8 +41,10 @@
   --color-streak: var(--color-fox);
   --color-focus: var(--color-whale);
 
-  --font-display: "Duolingo Sans", "Feather", "Pretendard", "Noto Sans KR", system-ui, sans-serif;
-  --font-body: "Duolingo Sans", "Feather", "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+  --font-display: "Feather", "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+  --font-body: "Duolingo Sans", "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+  --bold: 700;
+  --font-hero: "Duolingo Sans", "Feather", "Pretendard", "Noto Sans KR", system-ui, sans-serif;
 
   --text-page-title-lg: 2.5rem;
   --text-page-title-sm: 2rem;
@@ -98,6 +101,19 @@
   --header-inner-max: 64.75rem;
   --header-height: 3.25rem;
   --footer-inner-max: 68rem;
+  /* Footer reference: pale text on brand green, explicitly requested by the user. */
+  --footer-bg: var(--color-primary);
+  --footer-heading: var(--color-green-tint);
+  --footer-text: var(--color-green-tint-border);
+  --footer-rule: var(--color-green-tint-border);
+  --footer-mobile-max: 23.4375rem;
+  --footer-tablet-max: 48rem;
+  --footer-desktop-max: 64rem;
+  --footer-column-gap: var(--space-10);
+  --footer-group-gap: var(--space-8);
+  --footer-item-gap: var(--space-3);
+  --footer-language-gap: var(--space-6);
+  --footer-section-gap: var(--space-24);
   --footer-height: 3.5rem;
   --language-panel-min-width: 12rem;
   --language-strip-max: 68rem;

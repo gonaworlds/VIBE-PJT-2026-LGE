@@ -51,7 +51,8 @@
     min-height: var(--language-control-size);
     color: var(--color-text-secondary);
     font-size: var(--text-ui);
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-weight: var(--bold);
     white-space: nowrap;
   }
 

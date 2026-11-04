@@ -5,16 +5,53 @@
     flex-direction: column;
     min-block-size: 100dvh;
     --inner-max: var(--header-inner-max);
+    --compact-nav-height: 4.5rem;
     background: var(--color-bg);
   }
 
   .site-header > .inner-box {
-    flex: 0 0 var(--header-height);
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: 0;
+    z-index: var(--z-sticky);
+    flex: 0 0 var(--compact-nav-height);
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    block-size: 100%;
+    width: 100%;
+    max-width: none;
+    block-size: var(--compact-nav-height);
     padding-inline: var(--space-5);
+    background: var(--color-bg);
+    border-bottom: 2px solid transparent;
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      border-color 0.3s,
+      opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s linear 0s;
+    visibility: visible;
+  }
+
+  .site-header > .inner-box.is-scrolled {
+    border-bottom-color: var(--color-border);
+  }
+
+  .site-header > .inner-box.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-100%);
+    transition:
+      border-color 0.3s,
+      opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s linear 0.4s;
+    visibility: hidden;
+  }
+
+  .site-header > .inner-box.is-instant-switch {
+    transition: none;
   }
 
   .site-header > .inner-box .part {
@@ -22,6 +59,16 @@
     justify-content: space-between;
     max-width: var(--header-inner-max);
     flex-wrap: nowrap;
+  }
+
+  .site-header__controls {
+    display: grid;
+    flex: 0 0 auto;
+    align-items: center;
+  }
+
+  .site-header__controls > * {
+    grid-area: 1 / 1;
   }
 
   .site-header__brand {
@@ -33,7 +80,8 @@
     min-height: var(--language-control-size);
     color: var(--color-primary);
     font-size: var(--text-ui-sm);
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-weight: var(--bold);
     line-height: var(--line-height-ui);
     white-space: nowrap;
   }
@@ -44,12 +92,43 @@
     height: auto;
   }
 
+  .site-header__compact-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 6.125rem;
+    min-height: 2.75rem;
+    padding-inline: var(--space-4);
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .site-header > .inner-box .site-header__compact-cta {
+    justify-self: end;
+    width: 6.125rem;
+    min-height: 2.75rem;
+  }
+
+  .site-header > .inner-box.is-compact .site-language {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .site-header > .inner-box.is-compact .site-header__compact-cta {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+  }
+
   .site-language {
     position: relative;
     flex: 0 1 auto;
     color: var(--color-text-secondary);
     font-size: var(--text-ui-sm);
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-weight: var(--bold);
   }
 
   .site-language__summary {
@@ -89,6 +168,7 @@
     background: var(--color-bg);
     color: var(--color-text);
     font-size: var(--text-ui);
+    font-family: var(--font-body);
     font-weight: 400;
   }
 
@@ -107,12 +187,16 @@
   }
 
   @media (max-width: 67.4375rem) {
-    .site-header > .inner-box .part {
-      justify-content: center;
+    .site-language {
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
     }
 
-    .site-language {
-      display: none;
+    .site-header > .inner-box.is-compact .site-header__compact-cta {
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
     }
   }
 
@@ -122,17 +206,36 @@
     }
   }
 
-  @media (max-width: 47.99rem) {
+  @media (max-width: 48rem) {
     .site-header__languages {
       display: none;
     }
 
-    .site-header__brand img {
-      width: 10rem;
+    .site-header > .inner-box {
+      padding-inline: var(--space-4);
     }
 
+    .site-header__brand {
+      flex: 0 0 2.625rem;
+      justify-content: flex-start;
+      width: 2.625rem;
+      height: 2.625rem;
+      overflow: hidden;
+    }
+
+    .site-header__brand img {
+      flex: 0 0 auto;
+      width: 11.1875rem;
+      max-width: none;
+      height: 2.625rem;
+      object-fit: cover;
+      object-position: left center;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
     .site-header > .inner-box {
-      padding-inline: var(--inner-gutter);
+      transition: none;
     }
   }
 }

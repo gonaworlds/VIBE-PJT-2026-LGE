@@ -25,10 +25,11 @@
     overflow-wrap: break-word;
   }
 
-  h1 {
+  h1,
+  h2 {
     font-family: var(--font-display);
     font-size: var(--text-heading-lg);
-    font-weight: 700;
+    font-weight: var(--bold);
     line-height: var(--line-height-heading);
     text-align: center;
   }

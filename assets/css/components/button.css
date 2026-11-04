@@ -17,7 +17,7 @@
     color: var(--btn-fg);
     font-family: var(--font-display);
     font-size: var(--text-ui);
-    font-weight: 700;
+    font-weight: var(--bold);
     line-height: var(--line-height-ui);
     text-align: center;
     cursor: pointer;
@@ -25,6 +25,10 @@
       filter var(--duration-fast) var(--ease-standard),
       transform var(--duration-fast) var(--ease-standard),
       box-shadow 0s;
+  }
+
+  .btn.site-header__compact-cta {
+    min-height: 2.75rem;
   }
 
   .btn--outline {
