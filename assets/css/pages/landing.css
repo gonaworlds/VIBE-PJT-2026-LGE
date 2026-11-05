@@ -83,8 +83,8 @@
     position: relative;
     isolation: isolate;
     width: 100%;
-    max-width: 52.5rem;
-    aspect-ratio: 1;
+    max-width: none;
+    height: min(100vw, var(--downloads-scene-height));
     margin-inline: auto;
     overflow: hidden;
     color: #082f68;
@@ -192,8 +192,7 @@
     }
 
     .downloads {
-      max-width: 50.9375rem;
-      aspect-ratio: 1.064;
+      max-width: none;
     }
 
     .downloads__content {
@@ -260,8 +259,7 @@
     }
 
     .downloads {
-      max-width: 52.5rem;
-      aspect-ratio: 1;
+      max-width: none;
     }
 
     .downloads__content {

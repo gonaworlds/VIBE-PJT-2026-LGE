@@ -27,6 +27,7 @@
   --color-bg: var(--color-snow);
   --color-bg-subtle: var(--color-polar);
   --color-container-scroll-bg: #dff5ff;
+  --downloads-scene-height: 52.5rem;
   --color-text: var(--color-eel);
   --color-text-secondary: #757575;
   --color-text-disabled: var(--color-hare);

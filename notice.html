@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>공지사항 - Duolingo</title>
+    <meta
+      name="description"
+      content="듀오링고의 최신 공지사항, 서비스 점검 안내, 이벤트 및 업데이트 소식을 확인하세요."
+    >
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <script type="module" src="./assets/js/notice-page.js"></script>
+    <script type="module" src="./assets/js/footer.js"></script>
+  </head>
+  <body class="notice-page">
+    <a class="skip-link" href="#main">본문 바로가기</a>
+
+    <!-- 1. Notice Header -->
+    <header class="notice-header">
+      <div class="notice-header__inner">
+        <a href="./index.html" class="notice-header__brand" aria-label="듀오링고 홈으로 이동">
+          <img src="./assets/images/nav_logo.svg" alt="duolingo">
+        </a>
+        <a
+          class="btn notice-header__cta"
+          href="https://www.duolingo.com/register"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          시작하기
+        </a>
+      </div>
+    </header>
+
+    <!-- 2. Main Content -->
+    <main id="main">
+      <!-- Hero Banner -->
+      <section class="notice-hero" aria-labelledby="noticeHeroTitle">
+        <div class="notice-hero__clouds" aria-hidden="true">
+          <div class="notice-hero__cloud notice-hero__cloud--1"></div>
+          <div class="notice-hero__cloud notice-hero__cloud--2"></div>
+        </div>
+        <div class="notice-hero__content">
+          <div class="notice-hero__title-wrap">
+            <div class="notice-hero__sparkle notice-hero__sparkle--left" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+            <h1 class="notice-hero__title" id="noticeHeroTitle">NOTICE</h1>
+            <div class="notice-hero__sparkle notice-hero__sparkle--right" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+          <p class="notice-hero__subtitle" id="noticeHeroSubtitle">
+            듀오링고의 공지사항을 확인하세요.
+          </p>
+        </div>
+      </section>
+
+      <!-- Board Section -->
+      <section class="notice-main" aria-label="공지사항 게시판 본문">
+        <div class="notice-card-wrapper">
+          <!-- 부엉이 및 캘린더 장식 -->
+          <img
+            src="./assets/images/notice/duo-peeking.png"
+            alt="부엉이 듀오"
+            class="notice-mascot-owl"
+            aria-hidden="true"
+          >
+          <img
+            src="./assets/images/notice/calendar-3d.png"
+            alt="캘린더 아이콘"
+            class="notice-mascot-calendar"
+            aria-hidden="true"
+          >
+
+          <!-- SPA 컨테이너 (목록, 상세, 글쓰기, 글수정 전환) -->
+          <div class="notice-card" id="noticeAppContainer">
+            <div class="notice-loading">
+              <div class="notice-spinner"></div>
+              <p>공지사항을 불러오는 중입니다...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 3. Site Footer (기존 듀오링고 공통 푸터) -->
+    <footer class="site-footer">
+      <div class="inner-box">
+        <div class="part sitemap" data-js-sitemap>
+          <section class="sitemap__group" aria-labelledby="footer-about" data-js-footer-group="about">
+            <h2 class="site-footer__heading" id="footer-about">듀오링고 소개</h2>
+            <ul class="sitemap__list">
+              <li>학습 과정</li>
+              <li>사명</li>
+              <li>교육방식</li>
+              <li>효과</li>
+              <li>팀원 소개</li>
+              <li>채용 정보</li>
+              <li>블로그</li>
+              <li>스토어</li>
+              <li>보도 자료</li>
+              <li>투자자 정보</li>
+              <li>문의하기</li>
+            </ul>
+          </section>
+          <section class="sitemap__group" aria-labelledby="footer-products" data-js-footer-group="products">
+            <h2 class="site-footer__heading" id="footer-products">제품</h2>
+            <ul class="sitemap__list">
+              <li>듀오링고</li>
+              <li>Duolingo for Schools</li>
+              <li>Duolingo English Test</li>
+              <li>팟캐스트</li>
+              <li>Duolingo for Business</li>
+              <li>슈퍼 듀오링고</li>
+              <li>슈퍼 듀오링고 선물하기</li>
+              <li>듀오링고 맥스</li>
+            </ul>
+          </section>
+          <section class="sitemap__group" aria-labelledby="footer-apps" data-js-footer-group="apps">
+            <h2 class="site-footer__heading" id="footer-apps">앱</h2>
+            <ul class="sitemap__list">
+              <li>안드로이드용 듀오링고</li>
+              <li>iOS용 듀오링고</li>
+            </ul>
+          </section>
+          <section class="sitemap__group" aria-labelledby="footer-support" data-js-footer-group="support">
+            <h2 class="site-footer__heading" id="footer-support">도움말 및 지원</h2>
+            <ul class="sitemap__list">
+              <li><a href="./notice.html" style="color: inherit; text-decoration: none;">공지사항</a></li>
+              <li>듀오링고 FAQ</li>
+              <li>학교용 듀오링고 FAQ</li>
+              <li>Duolingo English Test FAQ</li>
+              <li>상태</li>
+            </ul>
+          </section>
+          <section class="sitemap__group" aria-labelledby="footer-legal" data-js-footer-group="legal">
+            <h2 class="site-footer__heading" id="footer-legal">개인정보처리방침 및 약관</h2>
+            <ul class="sitemap__list">
+              <li>커뮤니티 지침</li>
+              <li>규정</li>
+              <li>개인정보보호</li>
+            </ul>
+          </section>
+          <section class="sitemap__group" aria-labelledby="footer-social" data-js-footer-group="social">
+            <h2 class="site-footer__heading" id="footer-social">소셜 미디어</h2>
+            <ul class="sitemap__list">
+              <li>블로그</li>
+              <li>Instagram</li>
+              <li>TikTok</li>
+              <li>Twitter</li>
+              <li>YouTube</li>
+              <li>LinkedIn</li>
+            </ul>
+          </section>
+        </div>
+        <section class="part footer-site-language" aria-labelledby="footer-language-title">
+          <h2 class="site-footer__heading footer-site-language__heading" id="footer-language-title">사이트 언어:</h2>
+          <ul class="footer-site-language__list">
+            <li>한국어</li>
+            <li>English</li>
+            <li>Español</li>
+            <li>Français</li>
+            <li>Deutsch</li>
+            <li>Italiano</li>
+            <li>日本語</li>
+            <li>中文</li>
+          </ul>
+        </section>
+      </div>
+    </footer>
+  </body>
+</html>

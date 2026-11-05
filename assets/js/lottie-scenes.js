@@ -19,22 +19,49 @@ const loadPlayer = () => {
 };
 
 /**
- * Mount once-only, visibility-controlled animations with static SVG fallbacks.
+ * Mount visibility-controlled animations with static SVG fallbacks.
  * @returns {() => void} Restores images and releases players and observers.
  */
 export const initLottieScenes = () => {
   const controller = new AbortController();
   const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   const records = [];
+  let scrollFrame = 0;
+
+  const updateScrollScene = (record) => {
+    if (!record.ready || motionQuery.matches || document.hidden) return;
+    const { top, height } = record.scrollRoot.getBoundingClientRect();
+    // Scrub from first viewport entry to complete exit, in either direction.
+    const scrollSpeed = 1.5; // 이 숫자를 바꾸면서 확인하세요.
+    const progress = Math.min(1, Math.max(0,
+      ((window.innerHeight - top) / (window.innerHeight + height))
+      * scrollSpeed,
+    ));
+    for (const animation of record.animations) {
+      animation.goToAndStop(progress * Math.max(0, animation.totalFrames - 1), true);
+    }
+  };
+  const scheduleScrollUpdate = () => {
+    if (scrollFrame) return;
+    scrollFrame = window.requestAnimationFrame(() => {
+      scrollFrame = 0;
+      records.filter((record) => record.isScrollDriven).forEach(updateScrollScene);
+    });
+  };
 
   const syncPlayback = (record) => {
+    record.host.classList.toggle("is-animated", record.ready && !motionQuery.matches);
+    if (record.isScrollDriven) {
+      record.animations.forEach((animation) => animation.pause());
+      updateScrollScene(record);
+      return;
+    }
     const canPlay = record.visible && !document.hidden && !motionQuery.matches;
     for (const animation of record.animations) {
       if (canPlay && !animation.isPaused) continue;
       if (canPlay && !record.completed.has(animation)) animation.play();
       else animation.pause();
     }
-    record.host.classList.toggle("is-animated", record.ready && !motionQuery.matches);
   };
 
   const loadScene = async (record) => {
@@ -111,6 +138,15 @@ export const initLottieScenes = () => {
   const visibleObserver = new IntersectionObserver((entries) => {
     for (const entry of entries) {
       const record = records.find((item) => item.host === entry.target);
+      const isEntering = entry.isIntersecting && !record.visible;
+      // Downloads retain their independent time-based / scroll-driven behavior.
+      // Other finished scenes replay on re-entry; unfinished scenes resume.
+      const isComplete = record.animations.length > 0
+        && record.animations.every((animation) => record.completed.has(animation));
+      if (isEntering && !record.id.startsWith("downloads-") && isComplete) {
+        record.animations.forEach((animation) => animation.goToAndStop(0, true));
+        record.completed.clear();
+      }
       record.visible = entry.isIntersecting;
       syncPlayback(record);
     }
@@ -133,6 +169,8 @@ export const initLottieScenes = () => {
     const record = {
       id, files, host, img, originalClass, animations: [], completed: new Set(),
       visible: false, nearby: false, ready: false, loading: false,
+      isScrollDriven: img.dataset.lottiePlayback === "scroll",
+      scrollRoot: host.closest("[data-js-downloads]") || host,
     };
     records.push(record);
     preloadObserver.observe(host);
@@ -149,11 +187,18 @@ export const initLottieScenes = () => {
   document.addEventListener("visibilitychange", () => records.forEach(syncPlayback), {
     signal: controller.signal,
   });
+  window.addEventListener("scroll", scheduleScrollUpdate, { passive: true, signal: controller.signal });
+  window.addEventListener("resize", scheduleScrollUpdate, { signal: controller.signal });
+  window.addEventListener("pageshow", scheduleScrollUpdate, { signal: controller.signal });
+  const resizeObserver = new ResizeObserver(scheduleScrollUpdate);
+  resizeObserver.observe(document.body);
 
   return () => {
     controller.abort();
     preloadObserver.disconnect();
     visibleObserver.disconnect();
+    resizeObserver.disconnect();
+    if (scrollFrame) window.cancelAnimationFrame(scrollFrame);
     for (const record of records) {
       record.animations.forEach((animation) => animation.destroy());
       record.img.className = record.originalClass;

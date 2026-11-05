@@ -10,6 +10,9 @@
 
 ### 1. 설계 및 구현 규약 파일 위치
 
+- **실행 자산 관리:** CSS는 `assets/css/`, JavaScript는 `assets/js/`에서만 관리합니다. 루트에 `css/`·`js/` 복사본을 만들지 않습니다.
+- **HTML 진입 경로:** `index.html`은 `assets/css/main.css`와 `assets/js/main.js`를, `notice.html`은 같은 CSS 진입점과 `assets/js/notice-page.js`를 사용합니다.
+
 - **규약 문서 경로:** `spec-kit/AGENTS.md`
 - **작업 전 필수 절차:**
 
