@@ -1,4 +1,4 @@
 
 *.zip
-./task-history/
-./docs/
+task-history/
+docs/
