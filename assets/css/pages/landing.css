@@ -96,7 +96,8 @@
     z-index: 0;
   }
 
-  .downloads__artwork img {
+  .downloads__artwork > img,
+  .downloads__artwork > .lottie-scene {
     position: absolute;
     inset: 0;
     display: block;

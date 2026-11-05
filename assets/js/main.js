@@ -1,4 +1,5 @@
 import { initFooter } from "./footer.js";
+import { initLottieScenes } from "./lottie-scenes.js";
 import { initScrollBackground } from "./scroll-background.js";
 
 const SCROLL_PAGE_RATIO = 0.75;
@@ -133,6 +134,10 @@ const initCompactHeaderNav = () => {
 const destroyLanguageScroller = initLanguageScroller();
 const destroyCompactHeaderNav = initCompactHeaderNav();
 const destroyFooter = initFooter();
+const destroyLottieScenes = initLottieScenes();
 const destroyScrollBackground = initScrollBackground();
 
-export { destroyCompactHeaderNav, destroyLanguageScroller, destroyFooter, destroyScrollBackground };
+export {
+  destroyCompactHeaderNav, destroyLanguageScroller, destroyFooter,
+  destroyScrollBackground, destroyLottieScenes,
+};

@@ -9,5 +9,6 @@
 @import "./layout/site-footer.css" layer(layout);
 @import "./components/button.css" layer(components);
 @import "./components/language-strip.css" layer(components);
+@import "./components/lottie-scene.css" layer(components);
 @import "./pages/landing.css" layer(pages);
 @import "./utilities/accessibility.css" layer(utilities);
