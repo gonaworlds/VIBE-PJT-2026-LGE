@@ -1,5 +1,4 @@
 
 *.zip
-task-history/
-rfs/
-docs/
+./task-history/
+./docs/
