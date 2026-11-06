@@ -1,10 +1,60 @@
 @layer pages {
   /* ==========================================================================
      Web Fonts for Rich Text Editor (에디터 지원 폰트)
+     - @import 는 @layer 블록 안에서 무효이므로 Pretendard / Noto 는 notice.html 의 <link> 로 로드
+     - Gmarket Sans 는 굵기별 woff 를 @font-face 로 직접 선언 (Light 300 / Medium 500 / Bold 700)
+     - Duolingo Sans Editor: 단일 굵기(Regular) 폰트를 400 으로만 선언하여,
+       굵게(700) 요청 시 브라우저가 합성 볼드(font-synthesis)를 적용하도록 함
+       (※ 프로젝트의 .ttf 파일은 Chrome 에서 합성 볼드가 적용되지 않아 woff2 를 우선 사용)
+     - Feather: Bold 단일 굵기 파일이라 합성 볼드도 불가 → 아래 text-stroke 보강 규칙으로 처리
      ========================================================================== */
-  @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
-  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;600;700&display=swap");
-  @import url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff");
+  @font-face {
+    font-family: "Gmarket Sans";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff") format("woff");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Gmarket Sans";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff") format("woff");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Gmarket Sans";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff") format("woff");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* 기본 글꼴: Duolingo Sans 는 단일 굵기 파일 → 굵게는 합성 */
+  @font-face {
+    font-family: "Duolingo Sans Editor";
+    src:
+      url("../../fonts/Duolingo Sans-Din Next Rounded.woff2") format("woff2"),
+      url("../../fonts/Duolingo Sans Thin-normal-700-100.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* Feather(Bold 단일 굵기) 텍스트에 굵게가 지정된 경우 외곽선으로 굵기 보강
+     - <b><span Feather>…  /  <span Feather><b>…  /  <b style=Feather> 모두 대응
+     - Feather 안에 다른 글꼴이 중첩된 경우 상속된 외곽선 제거 */
+  :is(.notice-editor__body, .notice-detail__content) :is(b, strong) [style*="Feather"],
+  :is(.notice-editor__body, .notice-detail__content) [style*="Feather"] :is(b, strong),
+  :is(.notice-editor__body, .notice-detail__content) :is(b, strong)[style*="Feather"] {
+    -webkit-text-stroke: 0.04em currentColor;
+  }
+
+  :is(.notice-editor__body, .notice-detail__content) [style*="Feather"] [style*="font-family"]:not([style*="Feather"]) {
+    -webkit-text-stroke-width: 0;
+  }
 
   /* ==========================================================================
      Notice Page (공지사항 게시판)
@@ -18,6 +68,8 @@
     background-color: #ffffff;
     color: var(--color-eel);
     font-family: var(--font-body);
+    /* 에디터 본문/상세 본문 공통 기본 글꼴 (noticeApp.js 의 EDITOR_DEFAULT_FONT_STACK 과 동일하게 유지) */
+    --font-editor: "Duolingo Sans Editor", "Pretendard", "Noto Sans KR", system-ui, sans-serif;
   }
 
   /* --------------------------------------------------------------------------
@@ -582,6 +634,8 @@
 
   /* 본문 영역 */
   .notice-detail__content {
+    font-family: var(--font-editor);
+    font-synthesis: weight style;
     font-size: 1.0625rem;
     line-height: 1.75;
     color: #3c3c3c;
@@ -625,6 +679,15 @@
     font-weight: 700;
     display: inline-block;
     min-width: 70px;
+  }
+
+  /* 에디터 안의 안내 박스: 아이콘은 선택/편집 불가, 빈 내용도 클릭 가능하도록 최소 높이 */
+  .notice-editor__body .notice-info-box__icon {
+    user-select: none;
+  }
+
+  .notice-editor__body .notice-info-box__content {
+    min-height: 1.6em;
   }
 
   /* 첨부파일 영역 */
@@ -867,6 +930,30 @@
     color: var(--color-tree-green);
   }
 
+  /* 선택 영역 글꼴 정보 표시줄 */
+  .notice-editor__status {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.75rem;
+    min-height: 1.875rem;
+    padding: 0.3125rem 0.75rem;
+    background-color: #fbfbfb;
+    border-bottom: 1px solid var(--color-swan);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: #777777;
+  }
+
+  .notice-editor__status strong {
+    color: #3c3c3c;
+    font-weight: 700;
+  }
+
+  .notice-editor__status .is-warn {
+    color: #b66e00;
+  }
+
   .editor-divider {
     width: 1px;
     height: 20px;
@@ -878,7 +965,8 @@
   .notice-editor__body {
     min-height: 240px;
     padding: 1.125rem 1.25rem;
-    font-family: var(--font-body);
+    font-family: var(--font-editor);
+    font-synthesis: weight style;
     font-size: 1rem;
     line-height: 1.65;
     color: #333333;

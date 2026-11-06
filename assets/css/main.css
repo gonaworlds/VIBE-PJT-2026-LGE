@@ -12,4 +12,5 @@
 @import "./components/lottie-scene.css" layer(components);
 @import "./pages/landing.css" layer(pages);
 @import "./pages/notice.css" layer(pages);
+@import "./pages/englishtest.css" layer(pages);
 @import "./utilities/accessibility.css" layer(utilities);

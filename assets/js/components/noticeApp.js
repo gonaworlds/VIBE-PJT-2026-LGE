@@ -9,6 +9,96 @@ import { CATEGORY_CONFIG } from '../types/post.js';
 // 상수 및 상태
 const ITEMS_PER_PAGE = 7;
 
+// --------------------------------------------------------------------------
+// 리치 텍스트 에디터 글꼴 정의
+// bold: 'native'    → 실제 Bold 굵기 파일 보유
+//       'synthetic' → Regular 단일 굵기 → 브라우저 합성 볼드로 표시
+//       'stroke'    → Bold 단일 굵기 → 합성 불가, notice.css 의 text-stroke 보강으로 표시
+// names: 계산된 font-family 의 첫 번째 글꼴명(소문자)과 매칭하기 위한 별칭 (구버전 값 포함)
+// ※ EDITOR_DEFAULT_FONT_STACK 은 notice.css 의 --font-editor 와 동일하게 유지
+// --------------------------------------------------------------------------
+const EDITOR_DEFAULT_FONT_STACK = '"Duolingo Sans Editor", "Pretendard", "Noto Sans KR", system-ui, sans-serif';
+const ZWSP = '​';
+
+const BOLD_NOTICE = {
+  synthetic: '전용 Bold 없음 · 굵게는 합성 표시',
+  stroke: 'Bold 단일 굵기 · 굵게는 외곽선 보강으로 표시',
+};
+
+const EDITOR_FONTS = [
+  {
+    value: 'inherit',
+    label: '기본 글꼴 (Duolingo)',
+    name: '기본 글꼴 (Duolingo Sans)',
+    names: ['duolingo sans editor', 'duolingo sans'],
+    bold: 'synthetic',
+    note: '영문 단일 굵기 · 한글은 Pretendard로 표시',
+  },
+  {
+    value: "'Feather', 'Pretendard', sans-serif",
+    label: 'Feather (듀오링고 디스플레이 · Bold 전용)',
+    name: 'Feather',
+    names: ['feather'],
+    bold: 'stroke',
+    note: '영문 전용 · 한글은 Pretendard로 표시',
+  },
+  {
+    value: "'Pretendard', sans-serif",
+    label: 'Pretendard (프리텐다드)',
+    name: 'Pretendard',
+    names: ['pretendard', 'pretendard variable'],
+    bold: 'native',
+  },
+  {
+    value: "'Noto Sans KR', sans-serif",
+    label: 'Noto Sans KR (본고딕)',
+    name: 'Noto Sans KR',
+    names: ['noto sans kr'],
+    bold: 'native',
+  },
+  {
+    value: "'Noto Serif KR', serif",
+    label: 'Noto Serif KR (명조체)',
+    name: 'Noto Serif KR',
+    names: ['noto serif kr'],
+    bold: 'native',
+  },
+  {
+    value: "'Gmarket Sans', sans-serif",
+    label: 'Gmarket Sans',
+    name: 'Gmarket Sans',
+    names: ['gmarket sans', 'gmarketsansmedium'],
+    bold: 'native',
+  },
+  {
+    value: "'Courier New', monospace",
+    label: '고정폭 (Monospace)',
+    name: 'Courier New (고정폭)',
+    names: ['courier new', 'monospace'],
+    bold: 'native',
+  },
+];
+
+const EDITOR_FONT_SIZES = [
+  { value: '16px', label: '보통 (16px)' },
+  { value: '13px', label: '작게 (13px)' },
+  { value: '18px', label: '크게 (18px)' },
+  { value: '22px', label: '소제목 (22px)' },
+  { value: '26px', label: '대제목 (26px)' },
+];
+
+/** font-family 스택 문자열에서 첫 번째 글꼴명을 소문자로 추출 */
+function primaryFontFamily(stack) {
+  if (!stack) return '';
+  return stack.split(',')[0].trim().replace(/^['"]|['"]$/g, '').toLowerCase();
+}
+
+/** 계산된 font-family 로 에디터 글꼴 정의를 찾음 (없으면 null) */
+function findEditorFont(stack) {
+  const primary = primaryFontFamily(stack);
+  return EDITOR_FONTS.find((f) => f.names.includes(primary)) || null;
+}
+
 export class NoticeApp {
   constructor(containerEl) {
     this.container = containerEl;
@@ -787,21 +877,13 @@ export class NoticeApp {
         <div class="notice-editor__toolbar" role="toolbar" aria-label="텍스트 서식">
           <!-- 폰트 글꼴 및 크기 선택 옵션 -->
           <select class="editor-select" id="editorFontFamily" title="글꼴 선택" aria-label="글꼴 선택">
-            <option value="inherit">기본 글꼴 (Duolingo)</option>
-            <option value="'Feather', sans-serif">Feather (듀오링고 디스플레이)</option>
-            <option value="'Pretendard', sans-serif">Pretendard (프리텐다드)</option>
-            <option value="'Noto Sans KR', sans-serif">Noto Sans KR (본고딕)</option>
-            <option value="'Noto Serif KR', serif">Noto Serif KR (명조체)</option>
-            <option value="'Gmarket Sans', sans-serif">Gmarket Sans</option>
-            <option value="'Courier New', monospace">고정폭 (Monospace)</option>
+            <option value="" data-role="placeholder" disabled hidden>여러 글꼴</option>
+            ${EDITOR_FONTS.map((f) => `<option value="${f.value}">${f.label}</option>`).join('')}
           </select>
 
           <select class="editor-select" id="editorFontSize" title="글자 크기" aria-label="글자 크기">
-            <option value="16px">보통 (16px)</option>
-            <option value="13px">작게 (13px)</option>
-            <option value="18px">크게 (18px)</option>
-            <option value="22px">소제목 (22px)</option>
-            <option value="26px">대제목 (26px)</option>
+            <option value="" data-role="placeholder" disabled hidden>여러 크기</option>
+            ${EDITOR_FONT_SIZES.map((s) => `<option value="${s.value}">${s.label}</option>`).join('')}
           </select>
 
           <span class="editor-divider"></span>
@@ -840,11 +922,18 @@ export class NoticeApp {
           <button type="button" class="editor-btn" id="btnEditorImage" title="이미지 삽입">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
           </button>
+          <button type="button" class="editor-btn" id="btnEditorInfoBox" title="안내 박스 삽입/해제 (선택한 문단을 배경 블록으로 감싸기)" aria-pressed="false">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="4" fill="#e5f8d6"/><circle cx="7" cy="10" r="1.6" fill="currentColor" stroke="none"/><line x1="11" y1="10" x2="18" y2="10"/><line x1="11" y1="14" x2="16" y2="14"/></svg>
+          </button>
 
           <span class="editor-divider"></span>
 
           <button type="button" class="editor-btn" data-command="undo" title="실행 취소 (Ctrl+Z)">↩</button>
           <button type="button" class="editor-btn" data-command="redo" title="다시 실행 (Ctrl+Y)">↪</button>
+        </div>
+
+        <div class="notice-editor__status" id="editorFontInfo" aria-live="polite">
+          텍스트를 선택하면 적용된 글꼴이 여기에 표시됩니다.
         </div>
 
         <div
@@ -887,41 +976,52 @@ export class NoticeApp {
       });
     }
 
-    // 에디터 선택 영역(Selection) 보존 로직
-    // (드롭다운 클릭 시 selection이 해제되는 브라우저 기본 동작 방지)
-    const updateSavedRange = () => {
-      const sel = window.getSelection();
-      if (sel && sel.rangeCount > 0) {
-        const r = sel.getRangeAt(0);
-        if (editorBody.contains(r.commonAncestorContainer)) {
-          this.savedRange = r.cloneRange();
-        }
-      }
-    };
+    // 에디터 선택 영역(Selection) 보존 + 툴바 상태(글꼴/크기/서식) 동기화
+    // (드롭다운·프롬프트로 포커스가 빠져도 마지막 선택 영역을 복원하기 위함)
+    this.savedRange = null;
 
-    editorBody.addEventListener('mouseup', updateSavedRange);
-    editorBody.addEventListener('keyup', updateSavedRange);
-    editorBody.addEventListener('focus', updateSavedRange);
+    if (this.editorSelectionHandler) {
+      document.removeEventListener('selectionchange', this.editorSelectionHandler);
+    }
+    const onSelectionChange = () => {
+      if (!editorBody.isConnected) {
+        document.removeEventListener('selectionchange', onSelectionChange);
+        if (this.editorSelectionHandler === onSelectionChange) this.editorSelectionHandler = null;
+        return;
+      }
+      const sel = window.getSelection();
+      if (!sel || sel.rangeCount === 0) return;
+      const r = sel.getRangeAt(0);
+      // 툴바/다른 입력란으로 포커스가 옮겨간 경우엔 마지막 상태 유지
+      if (!editorBody.contains(r.commonAncestorContainer)) return;
+      this.savedRange = r.cloneRange();
+      this.updateToolbarState(editorBody, r);
+    };
+    this.editorSelectionHandler = onSelectionChange;
+    document.addEventListener('selectionchange', onSelectionChange);
 
     // 글꼴 변경
     const fontSelect = this.container.querySelector('#editorFontFamily');
     if (fontSelect) {
-      fontSelect.addEventListener('mousedown', updateSavedRange);
       fontSelect.addEventListener('change', (e) => {
-        const font = e.target.value;
-        this.applyCustomStyle(editorBody, 'fontFamily', font);
+        this.applyCustomStyle(editorBody, 'fontFamily', e.target.value);
+        this.updateCharCount(editorBody, charCounter);
       });
     }
 
     // 글자 크기 변경
     const sizeSelect = this.container.querySelector('#editorFontSize');
     if (sizeSelect) {
-      sizeSelect.addEventListener('mousedown', updateSavedRange);
       sizeSelect.addEventListener('change', (e) => {
-        const size = e.target.value;
-        this.applyCustomStyle(editorBody, 'fontSize', size);
+        this.applyCustomStyle(editorBody, 'fontSize', e.target.value);
+        this.updateCharCount(editorBody, charCounter);
       });
     }
+
+    // 툴바 버튼 mousedown 시 에디터 포커스/선택 영역이 해제되지 않도록 방지
+    this.container.querySelectorAll('.notice-editor__toolbar .editor-btn').forEach((btn) => {
+      btn.addEventListener('mousedown', (e) => e.preventDefault());
+    });
 
     // 에디터 툴바 커맨드 바인딩
     const toolbarBtns = this.container.querySelectorAll('.editor-btn[data-command]');
@@ -929,8 +1029,9 @@ export class NoticeApp {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         const cmd = btn.getAttribute('data-command');
+        this.restoreEditorSelection(editorBody);
         document.execCommand(cmd, false, null);
-        editorBody.focus();
+        this.refreshEditorState(editorBody);
         this.updateCharCount(editorBody, charCounter);
       });
     });
@@ -942,8 +1043,15 @@ export class NoticeApp {
         e.preventDefault();
         const url = prompt('삽입할 링크 URL을 입력하세요:', 'https://');
         if (url) {
-          document.execCommand('createLink', false, url);
-          editorBody.focus();
+          const range = this.restoreEditorSelection(editorBody);
+          if (range.collapsed) {
+            // 선택된 텍스트가 없으면 URL 자체를 링크 텍스트로 삽입
+            document.execCommand('insertHTML', false, `<a href="${this.escapeHtml(url)}">${this.escapeHtml(url)}</a>`);
+          } else {
+            document.execCommand('createLink', false, url);
+          }
+          this.refreshEditorState(editorBody);
+          this.updateCharCount(editorBody, charCounter);
         }
       });
     }
@@ -955,18 +1063,36 @@ export class NoticeApp {
         e.preventDefault();
         const url = prompt('삽입할 이미지 URL을 입력하세요:');
         if (url) {
+          this.restoreEditorSelection(editorBody);
           document.execCommand('insertImage', false, url);
-          editorBody.focus();
+          this.refreshEditorState(editorBody);
+          this.updateCharCount(editorBody, charCounter);
         }
       });
     }
 
-    // 글자 수 카운터 업데이트
+    // 안내 박스(배경 블록) 삽입/해제 버튼
+    editorBody.querySelectorAll('.notice-info-box__icon').forEach((icon) => {
+      icon.setAttribute('contenteditable', 'false');
+    });
+    const infoBoxBtn = this.container.querySelector('#btnEditorInfoBox');
+    if (infoBoxBtn) {
+      infoBoxBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.toggleInfoBox(editorBody);
+        this.updateCharCount(editorBody, charCounter);
+      });
+    }
+
+    // 글자 수 카운터 + 단축키(Ctrl+B 등) 이후 툴바 상태 업데이트
     const updateCount = () => {
       this.updateCharCount(editorBody, charCounter);
     };
     editorBody.addEventListener('input', updateCount);
-    editorBody.addEventListener('keyup', updateCount);
+    editorBody.addEventListener('keyup', () => {
+      updateCount();
+      this.refreshEditorState(editorBody);
+    });
     updateCount();
 
     // 첨부파일 렌더링
@@ -1048,8 +1174,8 @@ export class NoticeApp {
 
       const category = categoryEl.value;
       const title = titleEl.value.trim();
-      const content = editorBody.innerHTML.trim();
-      const plainText = editorBody.innerText.trim();
+      const content = this.getCleanEditorHtml(editorBody);
+      const plainText = editorBody.innerText.replace(/​/g, '').trim();
 
       // 유효성 검증
       let isValid = true;
@@ -1136,158 +1262,531 @@ export class NoticeApp {
     });
   }
 
-  applyCustomStyle(editorBody, styleProp, value) {
-    editorBody.focus();
+  // --------------------------------------------------------------------------
+  // 에디터 선택 영역 유틸
+  // --------------------------------------------------------------------------
 
-    // 1. 저장된 선택 영역 복원
-    const selection = window.getSelection();
-    let range = null;
-    if (this.savedRange) {
-      selection.removeAllRanges();
-      selection.addRange(this.savedRange);
-      range = this.savedRange;
-    } else if (selection && selection.rangeCount > 0) {
-      range = selection.getRangeAt(0);
+  /** 저장된 선택 영역을 복원하고 현재 Range 를 반환 (없으면 본문 끝에 커서 배치) */
+  restoreEditorSelection(editorBody) {
+    const saved =
+      this.savedRange && editorBody.contains(this.savedRange.commonAncestorContainer)
+        ? this.savedRange.cloneRange()
+        : null;
+
+    if (document.activeElement !== editorBody) {
+      editorBody.focus({ preventScroll: true });
     }
 
-    if (!range || !editorBody.contains(range.commonAncestorContainer)) {
-      // 선택 영역이 없을 때 에디터 기본 스타일 적용
-      if (styleProp === 'fontFamily') {
-        editorBody.style.fontFamily = value === 'inherit' ? '' : value;
-      } else if (styleProp === 'fontSize') {
-        editorBody.style.fontSize = value;
-      }
+    const selection = window.getSelection();
+    if (saved) {
+      selection.removeAllRanges();
+      selection.addRange(saved);
+      return saved;
+    }
+    if (selection.rangeCount > 0 && editorBody.contains(selection.getRangeAt(0).commonAncestorContainer)) {
+      return selection.getRangeAt(0);
+    }
+    const range = document.createRange();
+    range.selectNodeContents(editorBody);
+    range.collapse(false);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    return range;
+  }
+
+  /** 현재 선택 영역 기준으로 savedRange + 툴바 상태 갱신 */
+  refreshEditorState(editorBody) {
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0) return;
+    const r = sel.getRangeAt(0);
+    if (!editorBody.contains(r.commonAncestorContainer)) return;
+    this.savedRange = r.cloneRange();
+    this.updateToolbarState(editorBody, r);
+  }
+
+  /** Range 와 겹치는 텍스트 노드 구간 목록 [{ node, start, end }] (DOM 변경 없음) */
+  getTextSegmentsInRange(range, root) {
+    const segments = [];
+    if (range.collapsed) return segments;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    let node;
+    while ((node = walker.nextNode())) {
+      if (!range.intersectsNode(node)) continue;
+      const start = node === range.startContainer ? range.startOffset : 0;
+      const end = node === range.endContainer ? range.endOffset : node.data.length;
+      if (end > start) segments.push({ node, start, end });
+    }
+    return segments;
+  }
+
+  /** 요소의 계산된 스타일이 원하는 값과 같은지 비교 */
+  styleMatches(el, styleProp, wanted) {
+    if (!el) return false;
+    const computed = window.getComputedStyle(el)[styleProp];
+    if (styleProp === 'fontFamily') {
+      return primaryFontFamily(computed) === primaryFontFamily(wanted);
+    }
+    return computed === wanted;
+  }
+
+  // --------------------------------------------------------------------------
+  // 글꼴 / 글자 크기 적용
+  // - 선택 영역의 텍스트 노드 단위로 적용 (블록 요소 p/div/li 구조를 깨지 않음)
+  // - 한 줄 안에 여러 글꼴이 섞여 있어도 선택한 부분만 정확히 변경
+  // - 부모 span 이 다른 글꼴을 가진 경우에도 "기본 글꼴"로 되돌릴 수 있도록 명시값 지정
+  // --------------------------------------------------------------------------
+  applyCustomStyle(editorBody, styleProp, value) {
+    const range = this.restoreEditorSelection(editorBody);
+    const wanted = styleProp === 'fontFamily' && value === 'inherit' ? EDITOR_DEFAULT_FONT_STACK : value;
+    if (!wanted) return;
+
+    if (range.collapsed) {
+      this.applyStyleAtCaret(editorBody, range, styleProp, wanted);
+      this.refreshEditorState(editorBody);
       return;
     }
 
-    // 2. 텍스트가 드래그 선택된 상태
-    if (!range.collapsed) {
-      let container = range.commonAncestorContainer;
-      if (container.nodeType === Node.TEXT_NODE) {
-        container = container.parentElement;
-      }
+    const segments = this.getTextSegmentsInRange(range, editorBody);
+    if (!segments.length) return;
 
-      // 조상 span의 기존 스타일(예: fontFamily 변경 시 기존 fontSize 유지 등) 수집
-      const inheritedStyles = {};
-      let ancestor = container;
-      while (ancestor && ancestor !== editorBody) {
-        if (ancestor.tagName === 'SPAN' && ancestor.style) {
-          if (ancestor.style.fontFamily && styleProp !== 'fontFamily') {
-            inheritedStyles.fontFamily = ancestor.style.fontFamily;
-          }
-          if (ancestor.style.fontSize && styleProp !== 'fontSize') {
-            inheritedStyles.fontSize = ancestor.style.fontSize;
-          }
-          if (ancestor.style.fontWeight) {
-            inheritedStyles.fontWeight = ancestor.style.fontWeight;
-          }
-          if (ancestor.style.color) {
-            inheritedStyles.color = ancestor.style.color;
-          }
-        }
-        ancestor = ancestor.parentElement;
-      }
+    // 경계 텍스트 노드 분리 (끝 → 시작 순서로 분리해야 offset 이 유지됨)
+    const targets = segments.map(({ node, start, end }) => {
+      let target = node;
+      if (end < target.data.length) target.splitText(end);
+      if (start > 0) target = target.splitText(start);
+      return target;
+    });
 
-      // 만약 선택 영역이 이미 단일 SPAN 전체를 가리키고 있다면 직접 덮어쓰기
-      if (
-        container &&
-        container !== editorBody &&
-        container.tagName === 'SPAN' &&
-        range.toString() === container.textContent
-      ) {
-        if (value === 'inherit') {
-          container.style[styleProp] = '';
-        } else {
-          container.style[styleProp] = value;
-        }
+    targets.forEach((textNode) => this.applyStyleToTextNode(editorBody, textNode, styleProp, wanted));
+    this.normalizeEditorSpans(editorBody);
 
-        // 스타일이 비어있으면 불필요한 태그 정리
-        if (!container.getAttribute('style') || container.style.cssText.trim() === '') {
-          const parent = container.parentNode;
-          while (container.firstChild) {
-            parent.insertBefore(container.firstChild, container);
-          }
-          parent.removeChild(container);
-        }
-
-        const newRange = document.createRange();
-        newRange.selectNodeContents(container);
-        selection.removeAllRanges();
-        selection.addRange(newRange);
-        this.savedRange = newRange.cloneRange();
-        return;
-      }
-
-      // 내용 추출
-      const fragment = range.extractContents();
-
-      // 추출된 내부의 모든 자식에서 동일 styleProp 제거 (중첩 방지 핵심)
-      this.cleanStyleFromFragment(fragment, styleProp);
-
-      // 새 span 생성 및 스타일 병합
-      const span = document.createElement('span');
-      Object.assign(span.style, inheritedStyles);
-
-      if (value !== 'inherit') {
-        span.style[styleProp] = value;
-      } else {
-        span.style[styleProp] = '';
-      }
-
-      span.appendChild(fragment);
-      range.insertNode(span);
-
-      // 선택 영역을 새로 감싼 span으로 재지정 (연속 변경 가능하도록 보장)
-      selection.removeAllRanges();
+    // 적용한 텍스트 전체를 다시 선택 (연속 변경 가능)
+    const first = targets[0];
+    const last = targets[targets.length - 1];
+    if (first.isConnected && last.isConnected) {
+      const selection = window.getSelection();
       const newRange = document.createRange();
-      newRange.selectNodeContents(span);
-      selection.addRange(newRange);
-      this.savedRange = newRange.cloneRange();
-    } else {
-      // 3. 커서만 있는 상태 (타이핑 전 서식 지정)
-      const span = document.createElement('span');
-      if (value !== 'inherit') {
-        span.style[styleProp] = value;
-      }
-      const textNode = document.createTextNode('\u200B'); // zero-width space
-      span.appendChild(textNode);
-      range.insertNode(span);
-
+      newRange.setStart(first, 0);
+      newRange.setEnd(last, last.data.length);
       selection.removeAllRanges();
-      const newRange = document.createRange();
-      newRange.setStart(textNode, 1);
-      newRange.setEnd(textNode, 1);
       selection.addRange(newRange);
-      this.savedRange = newRange.cloneRange();
     }
+    this.refreshEditorState(editorBody);
   }
 
-  cleanStyleFromFragment(fragment, styleProp) {
-    if (!fragment) return;
-    const elements = fragment.querySelectorAll ? Array.from(fragment.querySelectorAll('*')) : [];
-    elements.forEach((el) => {
-      if (el.style) {
-        el.style[styleProp] = '';
-        if (el.tagName === 'SPAN' && (!el.getAttribute('style') || el.style.cssText.trim() === '') && !el.className && !el.id) {
-          const parent = el.parentNode;
-          if (parent) {
-            while (el.firstChild) {
-              parent.insertBefore(el.firstChild, el);
-            }
-            parent.removeChild(el);
-          }
+  applyStyleToTextNode(editorBody, textNode, styleProp, wanted) {
+    const parent = textNode.parentElement;
+    if (!parent || !editorBody.contains(parent)) return;
+
+    // 텍스트 노드 하나만 감싸고 있는 span 은 재사용 (불필요한 중첩 방지)
+    let target =
+      parent !== editorBody && parent.tagName === 'SPAN' && parent.childNodes.length === 1 ? parent : null;
+
+    if (target) target.style[styleProp] = '';
+    // 상속값이 이미 원하는 값이면 별도 지정 불필요
+    if (this.styleMatches(target || parent, styleProp, wanted)) return;
+
+    if (!target) {
+      target = document.createElement('span');
+      parent.insertBefore(target, textNode);
+      target.appendChild(textNode);
+    }
+    target.style[styleProp] = wanted;
+  }
+
+  /** 커서만 있는 상태: 이후 입력할 글자에 적용될 서식 span 삽입 */
+  applyStyleAtCaret(editorBody, range, styleProp, wanted) {
+    const selection = window.getSelection();
+    const container = range.startContainer;
+    const hostEl = container.nodeType === Node.TEXT_NODE ? container.parentElement : container;
+
+    const placeCaret = (node, offset) => {
+      const r = document.createRange();
+      r.setStart(node, offset);
+      r.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(r);
+    };
+
+    // 이미 커서용 빈 span(ZWSP) 안이라면 그 span 의 스타일만 갱신 (글꼴→크기 연속 지정 대응)
+    if (
+      container.nodeType === Node.TEXT_NODE &&
+      container.data === ZWSP &&
+      hostEl &&
+      hostEl !== editorBody &&
+      hostEl.tagName === 'SPAN' &&
+      hostEl.childNodes.length === 1
+    ) {
+      hostEl.style[styleProp] = '';
+      if (!this.styleMatches(hostEl, styleProp, wanted)) hostEl.style[styleProp] = wanted;
+      placeCaret(container, 1);
+      return;
+    }
+
+    if (this.styleMatches(hostEl, styleProp, wanted)) return;
+
+    const span = document.createElement('span');
+    span.style[styleProp] = wanted;
+    const zw = document.createTextNode(ZWSP);
+    span.appendChild(zw);
+    range.insertNode(span);
+    placeCaret(zw, 1);
+  }
+
+  /** 빈 span 제거, 속성 없는 span 해제, 인접한 동일 스타일 span 병합 */
+  normalizeEditorSpans(root) {
+    const isPlainSpan = (el) =>
+      el &&
+      el.nodeType === Node.ELEMENT_NODE &&
+      el.tagName === 'SPAN' &&
+      Array.from(el.attributes).every((a) => a.name === 'style');
+
+    const unwrap = (el) => {
+      const parent = el.parentNode;
+      while (el.firstChild) parent.insertBefore(el.firstChild, el);
+      parent.removeChild(el);
+    };
+
+    Array.from(root.querySelectorAll('span'))
+      .reverse()
+      .forEach((span) => {
+        if (!root.contains(span) || !isPlainSpan(span)) return;
+        if (!span.textContent && !span.querySelector('img, br')) {
+          span.remove();
+        } else if (!span.style.cssText.trim()) {
+          unwrap(span);
         }
-      }
-      if (el.tagName === 'FONT') {
-        if (styleProp === 'fontFamily') el.removeAttribute('face');
-        if (styleProp === 'fontSize') el.removeAttribute('size');
+      });
+
+    Array.from(root.querySelectorAll('span')).forEach((span) => {
+      if (!root.contains(span) || !isPlainSpan(span)) return;
+      let next = span.nextSibling;
+      while (next) {
+        if (next.nodeType === Node.TEXT_NODE && next.data === '') {
+          const empty = next;
+          next = next.nextSibling;
+          empty.remove();
+          continue;
+        }
+        if (isPlainSpan(next) && next.style.cssText === span.style.cssText) {
+          while (next.firstChild) span.appendChild(next.firstChild);
+          const merged = next;
+          next = next.nextSibling;
+          merged.remove();
+          continue;
+        }
+        break;
       }
     });
   }
 
+  /** 저장용 HTML: 커서용 ZWSP 와 빈/불필요 span 정리 */
+  getCleanEditorHtml(editorBody) {
+    const clone = editorBody.cloneNode(true);
+    const walker = document.createTreeWalker(clone, NodeFilter.SHOW_TEXT);
+    const textNodes = [];
+    let node;
+    while ((node = walker.nextNode())) textNodes.push(node);
+    textNodes.forEach((t) => {
+      if (t.data.includes(ZWSP)) t.data = t.data.split(ZWSP).join('');
+    });
+    // 편집 전용 속성 제거 (안내 박스 아이콘의 contenteditable="false" 등)
+    clone.querySelectorAll('[contenteditable]').forEach((el) => el.removeAttribute('contenteditable'));
+    this.normalizeEditorSpans(clone);
+    return clone.innerHTML.trim();
+  }
+
+  // --------------------------------------------------------------------------
+  // 안내 박스 (배경색 블록: .notice-info-box)
+  // - 커서만 있을 때: 현재 문단 아래에 템플릿 박스 삽입 (빈 문단이면 그 자리를 대체)
+  // - 텍스트 선택 시: 선택한 문단들을 박스로 감싸기
+  // - 커서가 박스 안에 있을 때: 박스 해제 (내용은 일반 문단으로 유지)
+  // --------------------------------------------------------------------------
+  findInfoBox(editorBody, node) {
+    const el = node && (node.nodeType === Node.TEXT_NODE ? node.parentElement : node);
+    const box = el && el.closest ? el.closest('.notice-info-box') : null;
+    return box && editorBody.contains(box) && box !== editorBody ? box : null;
+  }
+
+  createInfoBoxElement() {
+    const box = document.createElement('div');
+    box.className = 'notice-info-box';
+    box.innerHTML =
+      '<div class="notice-info-box__icon" contenteditable="false">' +
+      '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#58cc02"/><path d="M12 7V13M12 16V17" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"/></svg>' +
+      '</div><div class="notice-info-box__content"></div>';
+    return box;
+  }
+
+  isBlockNode(node) {
+    return (
+      node.nodeType === Node.ELEMENT_NODE &&
+      /^(P|DIV|UL|OL|LI|H[1-6]|BLOCKQUOTE|PRE|TABLE|HR|FIGURE)$/.test(node.tagName)
+    );
+  }
+
+  isEmptyBlock(node) {
+    return (
+      this.isBlockNode(node) &&
+      !node.classList.contains('notice-info-box') &&
+      node.textContent.split(ZWSP).join('').trim() === '' &&
+      !node.querySelector('img')
+    );
+  }
+
+  toggleInfoBox(editorBody) {
+    const range = this.restoreEditorSelection(editorBody);
+    const selection = window.getSelection();
+    const placeCaret = (node, offset, endNode = node, endOffset = offset) => {
+      const r = document.createRange();
+      r.setStart(node, offset);
+      r.setEnd(endNode, endOffset);
+      selection.removeAllRanges();
+      selection.addRange(r);
+    };
+
+    // 1) 박스 안에 커서가 있으면 → 해제
+    const existing =
+      this.findInfoBox(editorBody, range.startContainer) || this.findInfoBox(editorBody, range.endContainer);
+    if (existing) {
+      const content = existing.querySelector('.notice-info-box__content');
+      const moved = content ? Array.from(content.childNodes) : [];
+      const meaningful = moved.filter((n) => !(n.nodeType === Node.TEXT_NODE && !n.data.trim()));
+      const frag = document.createDocumentFragment();
+      if (meaningful.length) {
+        meaningful.forEach((n) => frag.appendChild(n));
+      } else {
+        const p = document.createElement('p');
+        p.appendChild(document.createElement('br'));
+        frag.appendChild(p);
+      }
+      const first = frag.firstChild;
+      existing.replaceWith(frag);
+      placeCaret(first, 0);
+      this.refreshEditorState(editorBody);
+      return;
+    }
+
+    // 최상위(에디터 직계) 노드 찾기
+    const topLevelOf = (node, offset) => {
+      if (node === editorBody) {
+        return editorBody.childNodes[Math.max(0, offset - 1)] || null;
+      }
+      let n = node;
+      while (n && n.parentNode !== editorBody) n = n.parentNode;
+      return n;
+    };
+
+    const box = this.createInfoBoxElement();
+    const content = box.querySelector('.notice-info-box__content');
+
+    if (!range.collapsed) {
+      // 2) 선택한 문단들을 박스로 감싸기
+      let startTop = topLevelOf(range.startContainer, range.startOffset);
+      let endTop = topLevelOf(range.endContainer, range.endOffset);
+      if (!startTop || !endTop) return;
+      // 인라인 노드(텍스트, span 등)는 같은 줄의 인접 인라인까지 포함
+      while (startTop.previousSibling && !this.isBlockNode(startTop) && !this.isBlockNode(startTop.previousSibling)) {
+        startTop = startTop.previousSibling;
+      }
+      while (endTop.nextSibling && !this.isBlockNode(endTop) && !this.isBlockNode(endTop.nextSibling)) {
+        endTop = endTop.nextSibling;
+      }
+
+      const nodes = [];
+      for (let n = startTop; n; n = n.nextSibling) {
+        nodes.push(n);
+        if (n === endTop) break;
+      }
+      editorBody.insertBefore(box, startTop);
+
+      let inlineGroup = null;
+      nodes.forEach((n) => {
+        if (n.nodeType === Node.ELEMENT_NODE && n.classList.contains('notice-info-box')) {
+          // 기존 박스가 선택에 포함되면 내용만 합침 (박스 중첩 방지)
+          const inner = n.querySelector('.notice-info-box__content');
+          if (inner) Array.from(inner.childNodes).forEach((c) => content.appendChild(c));
+          n.remove();
+          inlineGroup = null;
+        } else if (this.isBlockNode(n)) {
+          content.appendChild(n);
+          inlineGroup = null;
+        } else {
+          if (n.nodeType === Node.ELEMENT_NODE && n.tagName === 'BR') {
+            n.remove();
+            inlineGroup = null;
+            return;
+          }
+          if (!inlineGroup) {
+            inlineGroup = document.createElement('p');
+            content.appendChild(inlineGroup);
+          }
+          inlineGroup.appendChild(n);
+        }
+      });
+      if (!content.childNodes.length) {
+        content.innerHTML = '<p><br></p>';
+      }
+      placeCaret(content, 0, content, content.childNodes.length);
+    } else {
+      // 3) 커서 위치에 템플릿 박스 삽입
+      content.innerHTML = '<p><strong>항목</strong>&nbsp;&nbsp; 내용을 입력하세요</p>';
+      const currentTop = topLevelOf(range.startContainer, range.startOffset);
+      if (currentTop && this.isEmptyBlock(currentTop)) {
+        editorBody.replaceChild(box, currentTop);
+      } else if (currentTop) {
+        editorBody.insertBefore(box, currentTop.nextSibling);
+      } else {
+        editorBody.insertBefore(box, editorBody.firstChild);
+      }
+      const label = content.querySelector('strong').firstChild;
+      placeCaret(label, 0, label, label.data.length);
+    }
+
+    // 박스 뒤에서 계속 입력할 수 있도록 빈 문단 확보
+    const next = box.nextSibling;
+    const nextIsTyping =
+      next && !(next.nodeType === Node.ELEMENT_NODE && next.classList.contains('notice-info-box')) &&
+      !(next.nodeType === Node.TEXT_NODE && !next.data.trim() && !next.nextSibling);
+    if (!nextIsTyping) {
+      const p = document.createElement('p');
+      p.appendChild(document.createElement('br'));
+      editorBody.insertBefore(p, box.nextSibling);
+    }
+    // 박스가 맨 앞이면 앞에도 입력용 문단 확보
+    if (box === editorBody.firstChild) {
+      const p = document.createElement('p');
+      p.appendChild(document.createElement('br'));
+      editorBody.insertBefore(p, box);
+    }
+
+    this.refreshEditorState(editorBody);
+  }
+
+  // --------------------------------------------------------------------------
+  // 툴바 상태 표시 (선택 영역에 적용된 글꼴/크기/서식)
+  // --------------------------------------------------------------------------
+  updateToolbarState(editorBody, range) {
+    const fontSelect = this.container.querySelector('#editorFontFamily');
+    const sizeSelect = this.container.querySelector('#editorFontSize');
+    const infoEl = this.container.querySelector('#editorFontInfo');
+
+    // 1) 스타일을 확인할 요소 수집
+    const elementOf = (node) => (node.nodeType === Node.TEXT_NODE ? node.parentElement : node);
+    let elements = [];
+    if (range.collapsed) {
+      elements = [elementOf(range.startContainer)];
+    } else {
+      const segments = this.getTextSegmentsInRange(range, editorBody);
+      // 블록 사이 공백/줄바꿈 텍스트는 글꼴 판정에서 제외 (혼합 오판 방지)
+      const meaningful = segments.filter(
+        (s) => s.node.data.slice(s.start, s.end).split(ZWSP).join('').trim() !== ''
+      );
+      elements = (meaningful.length ? meaningful : segments).map((s) => s.node.parentElement);
+      if (!elements.length) elements = [elementOf(range.startContainer)];
+    }
+    elements = Array.from(new Set(elements.filter(Boolean)));
+
+    // 2) 글꼴/크기 집계
+    const fonts = new Map();
+    const sizes = new Set();
+    elements.forEach((el) => {
+      const cs = window.getComputedStyle(el);
+      const entry = findEditorFont(cs.fontFamily);
+      if (entry) {
+        fonts.set(entry.value, entry);
+      } else {
+        const raw = cs.fontFamily.split(',')[0].trim().replace(/^['"]|['"]$/g, '') || '알 수 없음';
+        fonts.set(`raw:${raw}`, { value: null, name: raw, bold: 'unknown' });
+      }
+      sizes.add(cs.fontSize);
+    });
+
+    const fontList = Array.from(fonts.values());
+    const sizeList = Array.from(sizes);
+
+    // 3) 셀렉트 표시 (혼합/목록 외 값은 placeholder 옵션으로 표시)
+    if (fontSelect) {
+      if (fontList.length === 1) {
+        this.setSelectDisplay(fontSelect, fontList[0].value, `기타: ${fontList[0].name}`);
+      } else {
+        this.setSelectDisplay(fontSelect, null, `여러 글꼴 (${fontList.length}종)`);
+      }
+    }
+    if (sizeSelect) {
+      if (sizeList.length === 1) {
+        this.setSelectDisplay(sizeSelect, sizeList[0], sizeList[0]);
+      } else {
+        this.setSelectDisplay(sizeSelect, null, '여러 크기');
+      }
+    }
+
+    // 4) 정보 표시줄
+    if (infoEl) {
+      const boldLabel = (f) => {
+        if (f.bold === 'native') return '굵게 지원';
+        if (BOLD_NOTICE[f.bold]) return `<span class="is-warn">${BOLD_NOTICE[f.bold]}</span>`;
+        return '굵기 정보 없음';
+      };
+      const parts = [];
+      if (fontList.length === 1) {
+        const f = fontList[0];
+        parts.push(`<span>글꼴: <strong>${this.escapeHtml(f.name)}</strong></span>`);
+        if (f.note) parts.push(`<span>${this.escapeHtml(f.note)}</span>`);
+        parts.push(`<span>${boldLabel(f)}</span>`);
+      } else {
+        const names = fontList.map((f) => `<strong>${this.escapeHtml(f.name)}</strong>`).join(', ');
+        parts.push(`<span>여러 글꼴 혼합: ${names}</span>`);
+        fontList
+          .filter((f) => BOLD_NOTICE[f.bold])
+          .forEach((f) => {
+            parts.push(`<span class="is-warn">${this.escapeHtml(f.name)}: ${BOLD_NOTICE[f.bold]}</span>`);
+          });
+      }
+      parts.push(`<span>크기: <strong>${this.escapeHtml(sizeList.join(', '))}</strong></span>`);
+      infoEl.innerHTML = parts.join('');
+    }
+
+    // 5) 안내 박스 버튼 활성 상태 (커서가 박스 안에 있으면 "해제" 모드)
+    const infoBoxBtn = this.container.querySelector('#btnEditorInfoBox');
+    if (infoBoxBtn) {
+      const inBox = Boolean(this.findInfoBox(editorBody, range.startContainer));
+      infoBoxBtn.classList.toggle('is-active', inBox);
+      infoBoxBtn.setAttribute('aria-pressed', inBox ? 'true' : 'false');
+      infoBoxBtn.title = inBox ? '안내 박스 해제' : '안내 박스 삽입 (선택한 문단을 배경 블록으로 감싸기)';
+    }
+
+    // 6) 서식 버튼 활성 상태
+    this.container.querySelectorAll('.editor-btn[data-command]').forEach((btn) => {
+      const cmd = btn.getAttribute('data-command');
+      if (cmd === 'undo' || cmd === 'redo') return;
+      let active = false;
+      try {
+        active = document.queryCommandState(cmd);
+      } catch (_) {
+        active = false;
+      }
+      btn.classList.toggle('is-active', Boolean(active));
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+  }
+
+  /** 셀렉트에 값 표시. 목록에 없는 값/혼합 상태면 placeholder 옵션에 텍스트를 넣어 표시 */
+  setSelectDisplay(select, value, placeholderText) {
+    const placeholder = select.querySelector('option[data-role="placeholder"]');
+    const hasOption =
+      value !== null && Array.from(select.options).some((o) => o !== placeholder && o.value === value);
+    if (hasOption) {
+      select.value = value;
+    } else if (placeholder) {
+      placeholder.textContent = placeholderText;
+      placeholder.selected = true;
+    }
+  }
+
   updateCharCount(editorBody, charCounter) {
     if (!editorBody || !charCounter) return;
-    const len = editorBody.innerText.trim().length;
+    const len = editorBody.innerText.replace(/​/g, '').trim().length;
     charCounter.textContent = `${len.toLocaleString()} / 5,000`;
     if (len > 5000) {
       charCounter.style.color = '#ea2b2b';

@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Duolingo English Test</title>
+    <meta
+      name="description"
+      content="언제 어디서든 영어 실력을 인증하세요. 편리하고 빠르며 합리적인 듀오링고 잉글리시 테스트(Duolingo English Test)."
+    >
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css"
+    >
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap"
+    >
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <script type="module" src="./assets/js/footer.js"></script>
+  </head>
+  <body class="englishtest-page">
+    <a class="skip-link" href="#main">본문 바로가기</a>
+
+    <!-- 1. Header & Fixed Navigation -->
+    <header class="englishtest-header">
+      <nav class="nav" aria-label="메인 내비게이션">
+        <!-- 모바일/태블릿용 햄버거 메뉴 버튼 -->
+        <button
+          type="button"
+          class="nav__toggle"
+          aria-label="모바일 메뉴 열기"
+          aria-expanded="false"
+        >
+          <span class="nav__toggle-bar"></span>
+          <span class="nav__toggle-bar"></span>
+          <span class="nav__toggle-bar"></span>
+        </button>
+
+        <!-- 브랜드 로고 -->
+        <a href="./englishtest.html" class="nav__brand" aria-label="Duolingo English Test 홈으로 이동">
+          <div class="nav__logo">
+            <img
+              src="./assets/images/englishtest.svg"
+              alt="duolingo"
+              class="nav__logo-icon"
+            >
+            <span class="nav__logo-text">duolingo english test</span>
+          </div>
+        </a>
+
+        <!-- 데스크탑 드롭다운 메뉴 -->
+        <ul class="nav__menu">
+          <li class="nav__item">
+            <button type="button" class="nav__link" aria-haspopup="true">
+              <span>시험 응시자</span>
+              <img
+                src="./assets/images/englishtest/ico_arrow.svg"
+                alt=""
+                class="nav__arrow-icon"
+                aria-hidden="true"
+              >
+            </button>
+          </li>
+          <li class="nav__item">
+            <button type="button" class="nav__link" aria-haspopup="true">
+              <span>기관</span>
+              <img
+                src="./assets/images/englishtest/ico_arrow.svg"
+                alt=""
+                class="nav__arrow-icon"
+                aria-hidden="true"
+              >
+            </button>
+          </li>
+          <li class="nav__item">
+            <button type="button" class="nav__link" aria-haspopup="true">
+              <span>연구원 소개</span>
+              <img
+                src="./assets/images/englishtest/ico_arrow.svg"
+                alt=""
+                class="nav__arrow-icon"
+                aria-hidden="true"
+              >
+            </button>
+          </li>
+        </ul>
+
+        <!-- 데스크탑 액션 버튼 -->
+        <div class="nav__actions">
+          <a href="#" class="btn-login">로그인하기</a>
+          <a href="#" class="btn-signup">회원가입</a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- 2. Main Content -->
+    <main id="main">
+      <!-- Hero Area -->
+      <div class="hero">
+        <!-- Hero Section 1: Intro + Benefits + Mascot Media -->
+        <section class="hero1" aria-labelledby="heroTitle">
+          <!-- Text Content -->
+          <div class="hero1__content">
+            <h1 class="hero1__title" id="heroTitle">
+              언제 어디서든 영어<span class="hero1__title-break"><br></span>실력을 인증하세요
+            </h1>
+
+            <!-- Desktop & Tablet: 3개의 체크리스트 -->
+            <ul class="hero1__benefits" aria-label="시험 주요 특징">
+              <li class="hero1__benefit-item">
+                <img
+                  src="./assets/images/englishtest/ico_check_01.svg"
+                  alt=""
+                  class="hero1__check-icon"
+                  aria-hidden="true"
+                >
+                <span>온라인으로 응시하세요. 예약할 필요가 없습니다.</span>
+              </li>
+              <li class="hero1__benefit-item">
+                <img
+                  src="./assets/images/englishtest/ico_check_01.svg"
+                  alt=""
+                  class="hero1__check-icon"
+                  aria-hidden="true"
+                >
+                <span>2일 내에 결과를 확인하세요.</span>
+              </li>
+              <li class="hero1__benefit-item">
+                <img
+                  src="./assets/images/englishtest/ico_check_01.svg"
+                  alt=""
+                  class="hero1__check-icon"
+                  aria-hidden="true"
+                >
+                <span>타 시험 대비 비용이 훨씬 저렴합니다.</span>
+              </li>
+            </ul>
+
+            <!-- Mobile Only: 1줄 간략 서브타이틀 -->
+            <p class="hero1__subtitle-mobile">
+              온라인으로 시험을 보고 2일 안에 결과를 받아보세요
+            </p>
+
+            <!-- Call To Action -->
+            <a href="#" class="hero1__cta">
+              무료 연습하기
+            </a>
+          </div>
+
+          <!-- Graphic Media (Desktop/Tablet: 우측, Mobile: 상단) -->
+          <div class="hero1__media">
+            <img
+              src="./assets/images/englishtest/hero_char_01.svg"
+              alt="시험을 치르고 있는 학생과 부엉이 듀오"
+              class="hero1__img"
+            >
+          </div>
+        </section>
+
+        <!-- Hero Section 2: University Accepting Logos -->
+        <div class="hero2" aria-label="인증 기관 및 대학교">
+          <div class="hero2__inner">
+            <div class="hero2__logo-item">
+              <img
+                src="./assets/images/englishtest/univ_toronto.svg"
+                alt="University of Toronto"
+                class="hero2__logo-img"
+              >
+            </div>
+            <div class="hero2__logo-item">
+              <img
+                src="./assets/images/englishtest/univ_yale.svg"
+                alt="Yale University"
+                class="hero2__logo-img"
+              >
+            </div>
+            <div class="hero2__logo-item">
+              <img
+                src="./assets/images/englishtest/univ_IVL.svg"
+                alt="Imperial College London"
+                class="hero2__logo-img"
+              >
+            </div>
+            <div class="hero2__logo-item">
+              <img
+                src="./assets/images/englishtest/univ_NYU.svg"
+                alt="NYU"
+                class="hero2__logo-img"
+              >
+            </div>
+            <div class="hero2__logo-item">
+              <img
+                src="./assets/images/englishtest/univ_UOC.svg"
+                alt="University of California"
+                class="hero2__logo-img"
+              >
+            </div>
+            <div class="hero2__logo-item">
+              <img
+                src="./assets/images/englishtest/univ_LBS.svg"
+                alt="London Business School"
+                class="hero2__logo-img"
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Contents (.cont) -->
+      <div class="cont">
+        <section class="cont01">
+          <!-- 추후 컨텐츠 영역 01 -->
+        </section>
+        <div class="cont02">
+          <!-- 추후 컨텐츠 영역 02 -->
+        </div>
+        <div class="cont03">
+          <!-- 추후 컨텐츠 영역 03 -->
+        </div>
+      </div>
+    </main>
+
+    <!-- 3. Site Footer (듀오링고 공통 푸터) -->
+    <footer class="site-footer">
+      <div class="inner-box">
+        <div class="part sitemap" data-js-sitemap>
+          <section class="sitemap__group" aria-labelledby="footer-about" data-js-footer-group="about">
+            <h2 class="site-footer__heading" id="footer-about">듀오링고 소개</h2>
+            <ul class="sitemap__list">
+              <li>학습 과정</li>
+              <li>사명</li>
+              <li>교육방식</li>
+              <li>효과</li>
+              <li>팀원 소개</li>
+              <li>채용 정보</li>
+              <li>블로그</li>
+              <li>브랜드 가이드라인</li>
+              <li>스토어</li>
+              <li>홍보 자료</li>
+              <li>투자자 정보</li>
+              <li>문의하기</li>
+            </ul>
+          </section>
+          <section class="sitemap__group" aria-labelledby="footer-products" data-js-footer-group="products">
+            <h2 class="site-footer__heading" id="footer-products">제품</h2>
+            <ul class="sitemap__list">
+              <li>듀오링고</li>
+              <li>Duolingo for Schools</li>
+              <li>Duolingo English Test</li>
+              <li>팟캐스트</li>
+              <li>Duolingo for Business</li>
+              <li>슈퍼 듀오링고</li>
+              <li>슈퍼 듀오링고 선물하기</li>
+              <li>듀오링고 맥스</li>
+            </ul>
+          </section>
+          <section class="sitemap__group" aria-labelledby="footer-apps" data-js-footer-group="apps">
+            <h2 class="site-footer__heading" id="footer-apps">앱</h2>
+            <ul class="sitemap__list">
+              <li>안드로이드용 듀오링고</li>
+              <li>iOS용 듀오링고</li>
+            </ul>
+          </section>
+          <section class="sitemap__group" aria-labelledby="footer-support" data-js-footer-group="support">
+            <h2 class="site-footer__heading" id="footer-support">도움말 및 지원</h2>
+            <ul class="sitemap__list">
+              <li><a href="./notice.html" style="color: inherit; text-decoration: none;">공지사항</a></li>
+              <li>듀오링고 FAQ</li>
+              <li>학교용 듀오링고 FAQ</li>
+              <li>Duolingo English Test FAQ</li>
+              <li>상태</li>
+            </ul>
+          </section>
+          <section class="sitemap__group" aria-labelledby="footer-legal" data-js-footer-group="legal">
+            <h2 class="site-footer__heading" id="footer-legal">개인정보처리방침 및 약관</h2>
+            <ul class="sitemap__list">
+              <li>커뮤니티 지침</li>
+              <li>규정</li>
+              <li>개인정보보호</li>
+            </ul>
+          </section>
+          <section class="sitemap__group" aria-labelledby="footer-social" data-js-footer-group="social">
+            <h2 class="site-footer__heading" id="footer-social">소셜 미디어</h2>
+            <ul class="sitemap__list">
+              <li>블로그</li>
+              <li>Instagram</li>
+              <li>TikTok</li>
+              <li>Twitter</li>
+              <li>YouTube</li>
+              <li>LinkedIn</li>
+            </ul>
+          </section>
+        </div>
+        <section class="part footer-site-language" aria-labelledby="footer-language-title">
+          <h2 class="site-footer__heading footer-site-language__heading" id="footer-language-title">사이트 언어:</h2>
+          <ul class="footer-site-language__list">
+            <li>한국어</li>
+            <li>English</li>
+            <li>Español</li>
+            <li>Français</li>
+            <li>Deutsch</li>
+            <li>Italiano</li>
+            <li>日本語</li>
+            <li>中文</li>
+          </ul>
+        </section>
+      </div>
+    </footer>
+  </body>
+</html>
+

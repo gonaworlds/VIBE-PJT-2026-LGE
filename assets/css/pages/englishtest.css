@@ -1,0 +1,552 @@
+@layer pages {
+  /* ==========================================================================
+     English Test Page Styles
+     Breakpoints:
+       Desktop: min-width: 1024px
+       Tablet:  768px ~ 1023px
+       Mobile:  max-width: 767px
+     ========================================================================== */
+
+  .englishtest-page {
+    background-color: #ffffff;
+    color: var(--color-eel, #4b4b4b);
+    font-family: var(--font-body, system-ui, sans-serif);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* --------------------------------------------------
+     1. Header & Fixed Navigation
+     -------------------------------------------------- */
+  .englishtest-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .englishtest-header .nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 72px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Brand Logo */
+  .englishtest-header .nav__brand {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    line-height: 1;
+  }
+
+  .englishtest-header .nav__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .englishtest-header .nav__logo-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+
+  .englishtest-header .nav__logo-text {
+    font-family: var(--font-display, "Feather", system-ui, sans-serif);
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #58cc02;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  /* Desktop Menu & Actions */
+  .englishtest-header .nav__menu {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .englishtest-header .nav__item {
+    position: relative;
+  }
+
+  .englishtest-header .nav__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    padding: 8px 4px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #777777;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .englishtest-header .nav__link:hover {
+    color: #4b4b4b;
+  }
+
+  .englishtest-header .nav__arrow-icon {
+    width: 10px;
+    height: 7px;
+    transition: transform 0.2s ease;
+    opacity: 0.7;
+  }
+
+  .englishtest-header .nav__item:hover .nav__arrow-icon {
+    transform: rotate(180deg);
+  }
+
+  .englishtest-header .nav__actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Header CTA Buttons */
+  .englishtest-header .btn-login {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0 18px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1cb0f6;
+    background-color: #ffffff;
+    border: 2px solid #e5e5e5;
+    border-radius: 12px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .englishtest-header .btn-login:hover {
+    background-color: #f7f7f7;
+    border-color: #cecece;
+  }
+
+  .englishtest-header .btn-signup {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0 20px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    background-color: #58cc02;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 3px 0 #58a700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: filter 0.15s ease, transform 0.1s ease;
+  }
+
+  .englishtest-header .btn-signup:hover {
+    filter: brightness(1.05);
+  }
+
+  .englishtest-header .btn-signup:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #58a700;
+  }
+
+  /* Hamburger Toggle (Mobile / Tablet) */
+  .englishtest-header .nav__toggle {
+    display: none;
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .englishtest-header .nav__toggle-bar {
+    display: block;
+    width: 24px;
+    height: 2.5px;
+    background-color: #afafaf;
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  /* --------------------------------------------------
+     2. Hero Section
+     -------------------------------------------------- */
+  .englishtest-page .hero {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 24px 70px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Hero Top: Text + Graphic */
+  .englishtest-page .hero1 {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    align-items: center;
+    gap: 48px;
+  }
+
+  /* Hero Left Content */
+  .englishtest-page .hero1__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .englishtest-page .hero1__title {
+    font-family: var(--font-display, "Pretendard", sans-serif);
+    font-size: 3.25rem;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: #4b4b4b;
+    margin: 0 0 32px 0;
+    word-break: keep-all;
+  }
+
+  .englishtest-page .hero1__title-break {
+    display: inline;
+  }
+
+  /* Benefits List (Desktop & Tablet) */
+  .englishtest-page .hero1__benefits {
+    list-style: none;
+    margin: 0 0 36px 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .englishtest-page .hero1__benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: #4b4b4b;
+    line-height: 1.45;
+    word-break: keep-all;
+  }
+
+  .englishtest-page .hero1__check-icon {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+
+  /* Mobile Subtitle (hidden on desktop/tablet) */
+  .englishtest-page .hero1__subtitle-mobile {
+    display: none;
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: #777777;
+    margin: 0 0 32px 0;
+    line-height: 1.5;
+    word-break: keep-all;
+    text-align: center;
+  }
+
+  /* Practice CTA Button */
+  .englishtest-page .hero1__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 280px;
+    height: 52px;
+    padding: 0 32px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #ffffff;
+    background-color: #58cc02;
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 4px 0 #58a700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: filter 0.15s ease, transform 0.1s ease;
+  }
+
+  .englishtest-page .hero1__cta:hover {
+    filter: brightness(1.05);
+  }
+
+  .englishtest-page .hero1__cta:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #58a700;
+  }
+
+  /* Hero Right Graphic */
+  .englishtest-page .hero1__media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .englishtest-page .hero1__img {
+    width: 100%;
+    max-width: 580px;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+
+  /* Hero Bottom: University Logos (hero2) */
+  .englishtest-page .hero2 {
+    margin-top: 70px;
+    padding-top: 20px;
+    width: 100%;
+  }
+
+  .englishtest-page .hero2__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .englishtest-page .hero2__logo-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 54px;
+    opacity: 0.85;
+    transition: opacity 0.2s ease, filter 0.2s ease;
+  }
+
+  .englishtest-page .hero2__logo-item:hover {
+    opacity: 1;
+  }
+
+  .englishtest-page .hero2__logo-img {
+    max-height: 48px;
+    width: auto;
+    max-width: 150px;
+    object-fit: contain;
+    filter: grayscale(100%);
+  }
+
+  /* --------------------------------------------------
+     3. Responsive Media Queries (Tablet & Mobile)
+     -------------------------------------------------- */
+
+  /* [Tablet Screen: 768px ~ 1023px]
+     - Header: 햄버거 메뉴(좌측), 중앙 로고, 우측 로그인/회원가입 숨김
+     - Hero: 2단 유지하되 패딩/폰트사이즈 최적화, 줄바꿈 유지
+     -------------------------------------------------- */
+  @media (max-width: 1023px) and (min-width: 768px) {
+    .englishtest-header .nav {
+      display: grid;
+      grid-template-columns: 48px 1fr 48px;
+      align-items: center;
+      padding: 0 20px;
+      height: 64px;
+    }
+
+    .englishtest-header .nav__toggle {
+      display: flex;
+      justify-self: start;
+    }
+
+    .englishtest-header .nav__brand {
+      justify-self: center;
+    }
+
+    .englishtest-header .nav__menu,
+    .englishtest-header .nav__actions {
+      display: none;
+    }
+
+    .englishtest-page .hero {
+      padding: 40px 24px 60px;
+    }
+
+    .englishtest-page .hero1 {
+      grid-template-columns: 1.05fr 1fr;
+      gap: 32px;
+    }
+
+    .englishtest-page .hero1__title {
+      font-size: 2.65rem;
+      margin-bottom: 24px;
+    }
+
+    .englishtest-page .hero1__benefit-item {
+      font-size: 1.05rem;
+      gap: 14px;
+    }
+
+    .englishtest-page .hero1__cta {
+      min-width: 260px;
+      height: 48px;
+      font-size: 1.05rem;
+    }
+
+    .englishtest-page .hero2 {
+      margin-top: 50px;
+    }
+
+    .englishtest-page .hero2__inner {
+      justify-content: space-around;
+      gap: 20px;
+    }
+
+    .englishtest-page .hero2__logo-img {
+      max-height: 42px;
+      max-width: 130px;
+    }
+  }
+
+  /* [Mobile Screen: ~ 767px]
+     - Header: 햄버거 메뉴(좌측), 중앙 로고
+     - Hero: 캐릭터/그래픽 상단 배치, 타이틀 중앙 정렬, 1단 구조
+     - 3개 체크리스트 대신 1줄 서브타이틀("온라인으로 시험을 보고 2일 안에 결과를 받아보세요")
+     - CTA 버튼 가로 꽉 차거나 넉넉한 너비
+     - 대학교 로고 가로 나열 및 스케일 조정
+     -------------------------------------------------- */
+  @media (max-width: 767px) {
+    .englishtest-header .nav {
+      display: grid;
+      grid-template-columns: 48px 1fr 48px;
+      align-items: center;
+      padding: 0 16px;
+      height: 60px;
+    }
+
+    .englishtest-header .nav__toggle {
+      display: flex;
+      justify-self: start;
+    }
+
+    .englishtest-header .nav__brand {
+      justify-self: center;
+    }
+
+    .englishtest-header .nav__menu,
+    .englishtest-header .nav__actions {
+      display: none;
+    }
+
+    .englishtest-page .hero {
+      padding: 24px 16px 50px;
+    }
+
+    .englishtest-page .hero1 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+
+    /* 모바일에서는 캐릭터 이미지가 최상단 */
+    .englishtest-page .hero1__media {
+      order: 1;
+      max-width: 340px;
+    }
+
+    .englishtest-page .hero1__img {
+      max-width: 100%;
+    }
+
+    .englishtest-page .hero1__content {
+      order: 2;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+    }
+
+    .englishtest-page .hero1__title {
+      font-size: 2.15rem;
+      line-height: 1.3;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .englishtest-page .hero1__title-break {
+      display: block;
+    }
+
+    /* 3개 리스트 숨기고 모바일 1줄 서브타이틀 표시 */
+    .englishtest-page .hero1__benefits {
+      display: none;
+    }
+
+    .englishtest-page .hero1__subtitle-mobile {
+      display: block;
+      margin-bottom: 24px;
+      font-size: 1rem;
+    }
+
+    .englishtest-page .hero1__cta {
+      width: 100%;
+      max-width: 340px;
+      height: 50px;
+      font-size: 1.05rem;
+      border-radius: 14px;
+    }
+
+    /* 대학 로고 섹션 */
+    .englishtest-page .hero2 {
+      margin-top: 44px;
+      padding-top: 10px;
+    }
+
+    .englishtest-page .hero2__inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px 20px;
+    }
+
+    .englishtest-page .hero2__logo-item {
+      height: 40px;
+    }
+
+    .englishtest-page .hero2__logo-img {
+      max-height: 32px;
+      max-width: 100px;
+    }
+  }
+
+  /* --------------------------------------------------
+     4. Content Placeholder Styles (.cont)
+     -------------------------------------------------- */
+  .englishtest-page .cont {
+    width: 100%;
+  }
+
+  .englishtest-page .cont01,
+  .englishtest-page .cont02,
+  .englishtest-page .cont03 {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 24px;
+  }
+}
+
