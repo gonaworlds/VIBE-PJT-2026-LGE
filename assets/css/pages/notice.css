@@ -32,13 +32,11 @@
     font-display: swap;
   }
 
-  /* 기본 글꼴: Duolingo Sans 는 단일 굵기 파일 → 굵게는 합성 */
+  /* 기본 글꼴: Duolingo Sans (가변 woff2 사용) */
   @font-face {
     font-family: "Duolingo Sans Editor";
-    src:
-      url("../../fonts/Duolingo Sans-Din Next Rounded.woff2") format("woff2"),
-      url("../../fonts/Duolingo Sans Thin-normal-700-100.ttf") format("truetype");
-    font-weight: 400;
+    src: url("../../fonts/DuolingoSansVF.woff2") format("woff2");
+    font-weight: 100 900;
     font-style: normal;
     font-display: swap;
   }

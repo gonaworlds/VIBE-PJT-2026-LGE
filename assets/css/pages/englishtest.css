@@ -38,7 +38,7 @@
     justify-content: space-between;
   }
 
-  /* Brand Logo */
+  /* Brand Logo with logo_text_green.svg */
   .englishtest-header .nav__brand {
     display: inline-flex;
     align-items: center;
@@ -46,25 +46,11 @@
     line-height: 1;
   }
 
-  .englishtest-header .nav__logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .englishtest-header .nav__logo-icon {
-    width: 32px;
-    height: 32px;
+  .englishtest-header .nav__logo-svg {
+    height: 38px;
+    width: auto;
+    max-width: 250px;
     object-fit: contain;
-  }
-
-  .englishtest-header .nav__logo-text {
-    font-family: var(--font-display, "Feather", system-ui, sans-serif);
-    font-size: 1.35rem;
-    font-weight: 800;
-    color: #58cc02;
-    letter-spacing: -0.02em;
-    white-space: nowrap;
   }
 
   /* Desktop Menu & Actions */
@@ -210,7 +196,6 @@
     gap: 48px;
   }
 
-  /* Hero Left Content */
   .englishtest-page .hero1__content {
     display: flex;
     flex-direction: column;
@@ -353,12 +338,660 @@
   }
 
   /* --------------------------------------------------
-     3. Responsive Media Queries (Tablet & Mobile)
+     3. Content Section Styles (.cont)
+     -------------------------------------------------- */
+  .englishtest-page .cont {
+    width: 100%;
+    background-color: #ffffff;
+  }
+
+  /* Highlight text */
+  .englishtest-page .highlight-green {
+    color: #58cc02;
+    font-weight: 800;
+  }
+
+  /* Outline Pill Button (기관 목록 보기) */
+  .englishtest-page .btn-outline-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 260px;
+    height: 44px;
+    padding: 0 24px;
+    border: 2px solid #e5e5e5;
+    border-radius: 22px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #1cb0f6;
+    background-color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .englishtest-page .btn-outline-pill:hover {
+    background-color: #f7f7f7;
+    border-color: #cecece;
+  }
+
+  /* --------------------
+     cont01: 신뢰하는 시험
+     -------------------- */
+  .englishtest-page .cont01 {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 80px 24px 90px;
+  }
+
+  .englishtest-page .cont01__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 60px;
+  }
+
+  .englishtest-page .cont01__media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .englishtest-page .cont01__img {
+    width: 100%;
+    max-width: 440px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .englishtest-page .cont01__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .englishtest-page .cont01__title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1.35;
+    color: #4b4b4b;
+    margin: 0 0 28px 0;
+    word-break: keep-all;
+  }
+
+  /* --------------------
+     cont02: 1시간 이내 응시 절차
+     -------------------- */
+  .englishtest-page .cont02 {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 24px 100px;
+  }
+
+  .englishtest-page .cont02__inner {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    align-items: center;
+    gap: 60px;
+  }
+
+  .englishtest-page .cont02__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .englishtest-page .cont02__title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1.35;
+    color: #4b4b4b;
+    margin: 0 0 40px 0;
+    word-break: keep-all;
+  }
+
+  /* 수직 스텝 진행 UI */
+  .englishtest-page .steps-progress-wrap {
+    position: relative;
+    width: 100%;
+    padding-left: 12px;
+  }
+
+  /* 초록색 둥근 수직 진행 바 */
+  .englishtest-page .steps-progress-bar {
+    position: absolute;
+    left: 12px;
+    top: 6px;
+    bottom: 6px;
+    width: 36px;
+    background-color: #58cc02;
+    border-radius: 18px;
+    z-index: 1;
+  }
+
+  .englishtest-page .steps-list {
+    position: relative;
+    z-index: 2;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  .englishtest-page .steps-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .englishtest-page .steps-icon-badge {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .englishtest-page .steps-icon-badge img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+
+  .englishtest-page .steps-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .englishtest-page .steps-heading {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #4b4b4b;
+    margin: 0;
+  }
+
+  .englishtest-page .steps-desc {
+    font-size: 0.95rem;
+    color: #777777;
+    margin: 0;
+    font-weight: 500;
+  }
+
+  /* Video Card */
+  .englishtest-page .cont02__media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .englishtest-page .video-card {
+    display: block;
+    width: 100%;
+    max-width: 480px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .englishtest-page .video-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.12);
+  }
+
+  .englishtest-page .video-card__img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* --------------------
+     cont03: 빠르고 유연한 시험 비교
+     -------------------- */
+  .englishtest-page .cont03 {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 24px 120px;
+  }
+
+  .englishtest-page .cont03__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .englishtest-page .cont03__title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1.35;
+    color: #4b4b4b;
+    margin: 0 0 50px 0;
+    word-break: keep-all;
+  }
+
+  /* Comparison Card Layout */
+  .englishtest-page .comparison-card-wrapper {
+    width: 100%;
+    max-width: 580px;
+    margin: 0 auto 50px;
+    position: relative;
+  }
+
+  .englishtest-page .comparison-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.3fr 1.15fr 1fr;
+    align-items: center;
+    border: 2px solid #e5e5e5;
+    border-radius: 20px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    padding: 30px 0;
+  }
+
+  .englishtest-page .comparison-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .englishtest-page .comparison-col--labels {
+    align-items: flex-start;
+    padding-left: 28px;
+  }
+
+  .englishtest-page .comparison-col--labels .comparison-list {
+    text-align: left;
+  }
+
+  .englishtest-page .comparison-col--labels li {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #4b4b4b;
+    white-space: nowrap;
+  }
+
+  /* 중앙 튀어나온 듀오링고 하이라이트 카드 */
+  .englishtest-page .comparison-col--duo {
+    position: absolute;
+    left: 42%;
+    top: -16px;
+    bottom: -16px;
+    width: 140px;
+    transform: translateX(-50%);
+    background-color: #ffffff;
+    border: 2px solid #e5e5e5;
+    border-radius: 22px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    z-index: 5;
+  }
+
+  .englishtest-page .comparison-duo-badge {
+    margin-bottom: 24px;
+  }
+
+  .englishtest-page .comparison-duo-logo {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+  }
+
+  /* 오른쪽 기타 시험 컬럼 */
+  .englishtest-page .comparison-col--other {
+    grid-column: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .englishtest-page .comparison-other-heading {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #777777;
+    margin-bottom: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* 공통 비교 리스트 규격 */
+  .englishtest-page .comparison-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+  }
+
+  .englishtest-page .comparison-list li {
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .englishtest-page .comparison-col--labels .comparison-list li {
+    justify-content: flex-start;
+  }
+
+  .englishtest-page .check-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .englishtest-page .dash-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* 구매하기 CTA 버튼 */
+  .englishtest-page .btn-purchase {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 280px;
+    height: 52px;
+    padding: 0 32px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #ffffff;
+    background-color: #58cc02;
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 4px 0 #58a700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: filter 0.15s ease, transform 0.1s ease;
+  }
+
+  .englishtest-page .btn-purchase:hover {
+    filter: brightness(1.05);
+  }
+
+  .englishtest-page .btn-purchase:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #58a700;
+  }
+
+  /* --------------------------------------------------
+     4. English Test Green Footer
+     -------------------------------------------------- */
+  .englishtest-footer {
+    width: 100%;
+    background-color: #58cc02;
+    color: #ffffff;
+    padding: 72px 32px 60px;
+    font-family: var(--font-body, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  }
+
+  .englishtest-footer__inner {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+
+  /* 상단 사이트맵 링크 5컬럼 그리드 (데스크탑) */
+  .englishtest-footer__sitemap {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) 1.15fr;
+    gap: 32px 28px;
+    align-items: start;
+  }
+
+  .englishtest-footer__group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 데스크탑 5열 배치:
+     1열: 소개
+     2열: 제품
+     3열: 앱
+     4열: 도움말 및 지원
+     5열: 개인정보처리방침 및 약관 (상단), 소셜 미디어 (하단)
+  */
+  .englishtest-footer__group--about {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
+  .englishtest-footer__group--products {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .englishtest-footer__group--apps {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+  }
+
+  .englishtest-footer__group--help {
+    grid-column: 4;
+    grid-row: 1 / span 2;
+  }
+
+  .englishtest-footer__group--terms {
+    grid-column: 5;
+    grid-row: 1;
+  }
+
+  .englishtest-footer__group--social {
+    grid-column: 5;
+    grid-row: 2;
+    margin-top: 14px;
+  }
+
+  .englishtest-footer__heading {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .englishtest-footer__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .englishtest-footer__list li a {
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    line-height: 1.35;
+    transition: opacity 0.15s ease, color 0.15s ease;
+  }
+
+  .englishtest-footer__list li a:hover {
+    color: #ffffff;
+    opacity: 1;
+    text-decoration: underline;
+  }
+
+  /* 하단 다국어 선택 목록 */
+  .englishtest-footer__language {
+    margin-top: 50px;
+    padding-top: 36px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .englishtest-footer__lang-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 16px 0;
+  }
+
+  .englishtest-footer__lang-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 22px;
+  }
+
+  .englishtest-footer__lang-list li a {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity 0.15s ease, color 0.15s ease;
+  }
+
+  .englishtest-footer__lang-list li a:hover {
+    color: #ffffff;
+    opacity: 1;
+    text-decoration: underline;
+  }
+
+  /* --------------------------------------------------
+     5. Responsive Media Queries (Tablet & Mobile)
      -------------------------------------------------- */
 
   /* [Tablet Screen: 768px ~ 1023px]
-     - Header: 햄버거 메뉴(좌측), 중앙 로고, 우측 로그인/회원가입 숨김
-     - Hero: 2단 유지하되 패딩/폰트사이즈 최적화, 줄바꿈 유지
+     - Header: 햄버거 메뉴(좌측), 중앙 로고
+     - Footer: 3열 그리드 배치
+     -------------------------------------------------- */
+  @media (max-width: 1023px) and (min-width: 768px) {
+    .englishtest-footer {
+      padding: 56px 32px 50px;
+    }
+
+    /* 3열 레이아웃:
+       1열: 듀오링고 소개 (위) + 도움말 및 지원 (아래)
+       2열: 제품 (위) + 개인정보처리방침 및 약관 (아래)
+       3열: 앱 (위) + 소셜 미디어 (아래)
+    */
+    .englishtest-footer__sitemap {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0 32px;
+      align-items: start;
+    }
+
+    .englishtest-footer__group--about {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .englishtest-footer__group--help {
+      grid-column: 1;
+      grid-row: 2;
+      margin-top: 36px;
+    }
+
+    .englishtest-footer__group--products {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .englishtest-footer__group--terms {
+      grid-column: 2;
+      grid-row: 2;
+      margin-top: 36px;
+    }
+
+    .englishtest-footer__group--apps {
+      grid-column: 3;
+      grid-row: 1;
+    }
+
+    .englishtest-footer__group--social {
+      grid-column: 3;
+      grid-row: 2;
+      margin-top: 36px;
+    }
+
+    .englishtest-footer__language {
+      margin-top: 40px;
+      padding-top: 30px;
+    }
+
+    .englishtest-footer__lang-list {
+      gap: 12px 18px;
+    }
+  }
+
+  /* [Mobile Screen: ~ 767px]
+     - Header: 햄버거 메뉴(좌측), 중앙 로고
+     - Footer: 세로 1단 수직 정렬
+     -------------------------------------------------- */
+  @media (max-width: 767px) {
+    .englishtest-footer {
+      padding: 44px 20px 48px;
+    }
+
+    .englishtest-footer__sitemap {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .englishtest-footer__group--about,
+    .englishtest-footer__group--products,
+    .englishtest-footer__group--apps,
+    .englishtest-footer__group--help,
+    .englishtest-footer__group--terms,
+    .englishtest-footer__group--social {
+      grid-column: auto;
+      grid-row: auto;
+      margin-top: 0;
+    }
+
+    .englishtest-footer__heading {
+      font-size: 1.0625rem;
+      margin-bottom: 14px;
+    }
+
+    .englishtest-footer__list {
+      gap: 10px;
+    }
+
+    .englishtest-footer__list li a {
+      font-size: 0.9rem;
+    }
+
+    .englishtest-footer__language {
+      margin-top: 32px;
+      padding-top: 24px;
+    }
+
+    .englishtest-footer__lang-title {
+      font-size: 0.9375rem;
+      margin-bottom: 14px;
+    }
+
+    .englishtest-footer__lang-list {
+      gap: 10px 14px;
+    }
+
+    .englishtest-footer__lang-list li a {
+      font-size: 0.8125rem;
+    }
+  }
+
+  /* [Tablet Screen: 768px ~ 1023px]
+     - Header: 햄버거 메뉴(좌측), 중앙 로고
+     - cont01: 2단 유지 (이미지 좌측 / 텍스트 우측)
+     - cont02: 2단 유지 (절차 좌측 / 비디오 우측)
+     - cont03: 중앙 정렬 및 비교 카드 최적화
      -------------------------------------------------- */
   @media (max-width: 1023px) and (min-width: 768px) {
     .englishtest-header .nav {
@@ -421,14 +1054,48 @@
       max-height: 42px;
       max-width: 130px;
     }
+
+    /* cont01 Tablet */
+    .englishtest-page .cont01 {
+      padding: 60px 24px 70px;
+    }
+
+    .englishtest-page .cont01__inner {
+      gap: 36px;
+    }
+
+    .englishtest-page .cont01__title {
+      font-size: 2rem;
+    }
+
+    /* cont02 Tablet */
+    .englishtest-page .cont02 {
+      padding: 50px 24px 80px;
+    }
+
+    .englishtest-page .cont02__inner {
+      gap: 36px;
+    }
+
+    .englishtest-page .cont02__title {
+      font-size: 2rem;
+    }
+
+    /* cont03 Tablet */
+    .englishtest-page .cont03 {
+      padding: 60px 24px 100px;
+    }
+
+    .englishtest-page .cont03__title {
+      font-size: 2rem;
+    }
   }
 
   /* [Mobile Screen: ~ 767px]
      - Header: 햄버거 메뉴(좌측), 중앙 로고
-     - Hero: 캐릭터/그래픽 상단 배치, 타이틀 중앙 정렬, 1단 구조
-     - 3개 체크리스트 대신 1줄 서브타이틀("온라인으로 시험을 보고 2일 안에 결과를 받아보세요")
-     - CTA 버튼 가로 꽉 차거나 넉넉한 너비
-     - 대학교 로고 가로 나열 및 스케일 조정
+     - cont01: 1단 구조 (이미지 상단, 텍스트 하단 중앙 정렬, 버튼 중앙)
+     - cont02: 1단 구조 (타이틀 중앙 -> 스텝 리스트 중앙 -> 비디오 하단 배치)
+     - cont03: 비교 카드 모바일 화면 너비에 맞게 최적화, CTA 가로 꽉 채움
      -------------------------------------------------- */
   @media (max-width: 767px) {
     .englishtest-header .nav {
@@ -448,6 +1115,11 @@
       justify-self: center;
     }
 
+    .englishtest-header .nav__logo-svg {
+      height: 32px;
+      max-width: 200px;
+    }
+
     .englishtest-header .nav__menu,
     .englishtest-header .nav__actions {
       display: none;
@@ -464,7 +1136,6 @@
       gap: 28px;
     }
 
-    /* 모바일에서는 캐릭터 이미지가 최상단 */
     .englishtest-page .hero1__media {
       order: 1;
       max-width: 340px;
@@ -492,7 +1163,6 @@
       display: block;
     }
 
-    /* 3개 리스트 숨기고 모바일 1줄 서브타이틀 표시 */
     .englishtest-page .hero1__benefits {
       display: none;
     }
@@ -511,7 +1181,6 @@
       border-radius: 14px;
     }
 
-    /* 대학 로고 섹션 */
     .englishtest-page .hero2 {
       margin-top: 44px;
       padding-top: 10px;
@@ -532,21 +1201,117 @@
       max-height: 32px;
       max-width: 100px;
     }
-  }
 
-  /* --------------------------------------------------
-     4. Content Placeholder Styles (.cont)
-     -------------------------------------------------- */
-  .englishtest-page .cont {
-    width: 100%;
-  }
+    /* cont01 Mobile */
+    .englishtest-page .cont01 {
+      padding: 40px 20px 60px;
+    }
 
-  .englishtest-page .cont01,
-  .englishtest-page .cont02,
-  .englishtest-page .cont03 {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 60px 24px;
+    .englishtest-page .cont01__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 32px;
+    }
+
+    .englishtest-page .cont01__img {
+      max-width: 320px;
+    }
+
+    .englishtest-page .cont01__content {
+      align-items: center;
+    }
+
+    .englishtest-page .cont01__title {
+      font-size: 1.75rem;
+      margin-bottom: 24px;
+    }
+
+    .englishtest-page .btn-outline-pill {
+      width: 100%;
+      max-width: 320px;
+    }
+
+    /* cont02 Mobile */
+    .englishtest-page .cont02 {
+      padding: 40px 20px 60px;
+    }
+
+    .englishtest-page .cont02__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .englishtest-page .cont02__content {
+      align-items: center;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .englishtest-page .cont02__title {
+      font-size: 1.75rem;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .englishtest-page .steps-progress-wrap {
+      padding-left: 8px;
+    }
+
+    .englishtest-page .steps-progress-bar {
+      left: 8px;
+    }
+
+    .englishtest-page .video-card {
+      max-width: 340px;
+    }
+
+    /* cont03 Mobile */
+    .englishtest-page .cont03 {
+      padding: 50px 16px 80px;
+    }
+
+    .englishtest-page .cont03__title {
+      font-size: 1.75rem;
+      margin-bottom: 40px;
+    }
+
+    .englishtest-page .comparison-card-wrapper {
+      max-width: 100%;
+    }
+
+    .englishtest-page .comparison-card {
+      grid-template-columns: 1.25fr 1fr 0.9fr;
+      padding: 24px 0;
+    }
+
+    .englishtest-page .comparison-col--labels {
+      padding-left: 14px;
+    }
+
+    .englishtest-page .comparison-col--labels li {
+      font-size: 0.85rem;
+    }
+
+    .englishtest-page .comparison-col--duo {
+      left: 45%;
+      width: 110px;
+      padding: 16px 0;
+    }
+
+    .englishtest-page .comparison-duo-logo {
+      width: 44px;
+      height: 44px;
+    }
+
+    .englishtest-page .btn-purchase {
+      width: 100%;
+      max-width: 340px;
+      height: 50px;
+      font-size: 1.05rem;
+    }
   }
 }
-
