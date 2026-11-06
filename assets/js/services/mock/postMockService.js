@@ -1,6 +1,7 @@
 import { storageHelper } from './storageHelper.js';
 import { generateInitialPosts } from './initialSeedData.js';
 import { CATEGORY_CONFIG } from '../../types/post.js';
+import { pickSiblings } from '../../utils/postSiblings.js';
 
 const STORAGE_KEY = 'mock_duo_notice_posts_v2';
 const LEGACY_STORAGE_KEY = 'mock_duo_notice_posts';
@@ -179,14 +180,7 @@ export const postMockService = {
    */
   getSiblings: async (currentId) => {
     const list = await postMockService.getAll();
-    const index = list.findIndex((item) => item.id === currentId);
-    if (index === -1) return { prev: null, next: null };
-
-    // index - 1은 더 최신 글(이전글/다음글 네비게이션용)
-    return {
-      prev: index > 0 ? list[index - 1] : null,
-      next: index < list.length - 1 ? list[index + 1] : null,
-    };
+    return pickSiblings(list, currentId);
   },
 
   /**

@@ -11,6 +11,9 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Brand Fonts Preload (.woff2) -->
+    <link rel="preload" href="./assets/fonts/DuolingoSansVF.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="./assets/fonts/Feather Bold-700-ui.woff2" as="font" type="font/woff2" crossorigin>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css"
@@ -20,6 +23,8 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap"
     >
     <link rel="stylesheet" href="./assets/css/main.css">
+    <script type="module" src="./assets/js/auth-header.js"></script>
+    <script type="module" src="./assets/js/englishtest.js"></script>
     <script type="module" src="./assets/js/footer.js"></script>
   </head>
   <body class="englishtest-page">
@@ -34,6 +39,7 @@
           class="nav__toggle"
           aria-label="모바일 메뉴 열기"
           aria-expanded="false"
+          aria-controls="mobileDrawer"
         >
           <span class="nav__toggle-bar"></span>
           <span class="nav__toggle-bar"></span>
@@ -52,7 +58,7 @@
         <!-- 데스크탑 드롭다운 메뉴 -->
         <ul class="nav__menu">
           <li class="nav__item">
-            <button type="button" class="nav__link" aria-haspopup="true">
+            <button type="button" class="nav__link" aria-haspopup="true" aria-expanded="false">
               <span>시험 응시자</span>
               <img
                 src="./assets/images/englishtest/ico_arrow.svg"
@@ -61,9 +67,15 @@
                 aria-hidden="true"
               >
             </button>
+            <ul class="nav__dropdown" aria-label="시험 응시자 하위 메뉴">
+              <li><a href="#" class="nav__dropdown-item">개요</a></li>
+              <li><a href="#" class="nav__dropdown-item">인정 기관</a></li>
+              <li><a href="#" class="nav__dropdown-item">채점 방식</a></li>
+              <li><a href="#" class="nav__dropdown-item">시험 준비하기</a></li>
+            </ul>
           </li>
           <li class="nav__item">
-            <button type="button" class="nav__link" aria-haspopup="true">
+            <button type="button" class="nav__link" aria-haspopup="true" aria-expanded="false">
               <span>기관</span>
               <img
                 src="./assets/images/englishtest/ico_arrow.svg"
@@ -72,9 +84,16 @@
                 aria-hidden="true"
               >
             </button>
+            <ul class="nav__dropdown" aria-label="기관 하위 메뉴">
+              <li><a href="#" class="nav__dropdown-item">개요</a></li>
+              <li><a href="#" class="nav__dropdown-item">시험 보안</a></li>
+              <li><a href="#" class="nav__dropdown-item">채점 방식</a></li>
+              <li><a href="#" class="nav__dropdown-item">액세스 프로그램</a></li>
+              <li><a href="#" class="nav__dropdown-item">글로벌 자문단</a></li>
+            </ul>
           </li>
           <li class="nav__item">
-            <button type="button" class="nav__link" aria-haspopup="true">
+            <button type="button" class="nav__link" aria-haspopup="true" aria-expanded="false">
               <span>연구원 소개</span>
               <img
                 src="./assets/images/englishtest/ico_arrow.svg"
@@ -83,15 +102,74 @@
                 aria-hidden="true"
               >
             </button>
+            <ul class="nav__dropdown" aria-label="연구원 소개 하위 메뉴">
+              <li><a href="#" class="nav__dropdown-item">개요</a></li>
+              <li><a href="#" class="nav__dropdown-item">출판물</a></li>
+              <li><a href="#" class="nav__dropdown-item">연구팀</a></li>
+              <li><a href="#" class="nav__dropdown-item">상금 및 보조금</a></li>
+              <li><a href="#" class="nav__dropdown-item">블로그</a></li>
+            </ul>
           </li>
         </ul>
 
         <!-- 데스크탑 액션 버튼 -->
         <div class="nav__actions">
-          <a href="#" class="btn-login">로그인하기</a>
-          <a href="#" class="btn-signup">회원가입</a>
+          <!-- 로그인 상태 표시 (assets/js/auth-header.js) -->
+          <span class="auth-welcome" data-auth="welcome" hidden></span>
+          <a href="./login.html" class="btn btn--outline btn--text-accent btn--sm" data-auth="login">로그인하기</a>
+          <a href="./login.html#signup" class="btn btn--sm" data-auth="signup">회원가입</a>
         </div>
       </nav>
+
+      <!-- 모바일 / 태블릿 햄버거 메뉴 오버레이 드로어 -->
+      <div id="mobileDrawer" class="mobile-drawer" aria-hidden="true">
+        <div class="mobile-drawer__inner">
+          <!-- 1. 버튼 그룹: 가로 50%씩 균등 배치 (폭이 넓어지면 버튼도 함께 확장) -->
+          <p class="auth-welcome mobile-drawer__welcome" data-auth="welcome" hidden></p>
+          <div class="mobile-drawer__actions">
+            <a href="./login.html" class="btn btn--outline btn--text-accent btn--sm mobile-drawer__btn" data-auth="login">로그인하기</a>
+            <a href="./login.html#signup" class="btn btn--sm mobile-drawer__btn" data-auth="signup">회원가입</a>
+          </div>
+
+          <!-- 2. 모바일 메뉴 목록 섹션 -->
+          <div class="mobile-drawer__menu">
+            <!-- 섹션 1: 시험 응시자 -->
+            <div class="mobile-drawer__section">
+              <h3 class="mobile-drawer__category">시험 응시자</h3>
+              <ul class="mobile-drawer__list">
+                <li><a href="#" class="mobile-drawer__link">소개</a></li>
+                <li><a href="#" class="mobile-drawer__link">인정 기관</a></li>
+                <li><a href="#" class="mobile-drawer__link">채점 방식</a></li>
+                <li><a href="#" class="mobile-drawer__link">시험 준비하기</a></li>
+              </ul>
+            </div>
+
+            <!-- 섹션 2: 기관 -->
+            <div class="mobile-drawer__section">
+              <h3 class="mobile-drawer__category">기관</h3>
+              <ul class="mobile-drawer__list">
+                <li><a href="#" class="mobile-drawer__link">소개</a></li>
+                <li><a href="#" class="mobile-drawer__link">시험 보안</a></li>
+                <li><a href="#" class="mobile-drawer__link">채점 방식</a></li>
+                <li><a href="#" class="mobile-drawer__link">액세스 프로그램</a></li>
+                <li><a href="#" class="mobile-drawer__link">글로벌 자문단</a></li>
+              </ul>
+            </div>
+
+            <!-- 섹션 3: 연구원 소개 -->
+            <div class="mobile-drawer__section">
+              <h3 class="mobile-drawer__category">연구원 소개</h3>
+              <ul class="mobile-drawer__list">
+                <li><a href="#" class="mobile-drawer__link">소개</a></li>
+                <li><a href="#" class="mobile-drawer__link">연구 출판</a></li>
+                <li><a href="#" class="mobile-drawer__link">듀오링고 연구팀</a></li>
+                <li><a href="#" class="mobile-drawer__link">지원금 및 상금</a></li>
+                <li><a href="#" class="mobile-drawer__link">블로그</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </header>
 
     <!-- 2. Main Content -->
@@ -143,7 +221,7 @@
             </p>
 
             <!-- Call To Action -->
-            <a href="#" class="hero1__cta">
+            <a href="#" class="btn btn--lg hero1__cta">
               무료 연습하기
             </a>
           </div>
@@ -223,7 +301,7 @@
               <h2 class="cont01__title" id="cont01Title">
                 전 세계 <span class="highlight-green">6,500개 이상의</span> 기관에서 신뢰하는 시험
               </h2>
-              <a href="#" class="btn-outline-pill">
+              <a href="#" class="btn btn--outline btn--text-accent cont01__cta">
                 기관 목록 보기
               </a>
             </div>
@@ -309,7 +387,7 @@
                 <div class="comparison-col comparison-col--duo" aria-label="Duolingo English Test">
                   <div class="comparison-duo-badge">
                     <img
-                      src="./assets/images/englishtest.svg"
+                      src="./assets/images/englishtest/logo_mini.svg"
                       alt="Duolingo English Test"
                       class="comparison-duo-logo"
                     >
@@ -353,7 +431,7 @@
 
             <!-- 하단 시험 구매하기 CTA -->
             <div class="cont03__cta-wrap">
-              <a href="#" class="btn-purchase">
+              <a href="#" class="btn btn--lg cont03__cta">
                 시험 구매하기
               </a>
             </div>
@@ -362,124 +440,117 @@
       </div>
     </main>
 
-    <!-- 3. Site Footer (Duolingo English Test Green Footer) -->
+    <!-- 3. Site Footer (Duolingo English Test Dedicated Green Footer) -->
     <footer class="englishtest-footer">
-      <div class="englishtest-footer__inner">
-        <!-- 상단 사이트맵 섹션 -->
-        <div class="englishtest-footer__sitemap">
-          <!-- 1. 듀오링고 소개 -->
-          <div class="englishtest-footer__group englishtest-footer__group--about">
-            <h2 class="englishtest-footer__heading">듀오링고 소개</h2>
-            <ul class="englishtest-footer__list">
-              <li><a href="#">학습 과정</a></li>
-              <li><a href="#">사명</a></li>
-              <li><a href="#">교육방식</a></li>
-              <li><a href="#">학습 효과</a></li>
-              <li><a href="#">듀오링고 핸드북</a></li>
-              <li><a href="#">연구</a></li>
-              <li><a href="#">인재 채용</a></li>
-              <li><a href="#">스토어</a></li>
-              <li><a href="#">언론</a></li>
-              <li><a href="#">투자자</a></li>
-              <li><a href="#">듀오링고에 문의하기</a></li>
-            </ul>
+      <!-- 상단 마스코트 캐릭터 -->
+      <div class="englishtest-footer__mascot-wrap">
+        <img
+          src="./assets/images/englishtest/footer_char.svg"
+          alt="Duolingo English Test 캐릭터"
+          class="englishtest-footer__mascot"
+        />
+      </div>
+
+      <!-- 상단 물결(웨이브) 구분선 -->
+      <div class="englishtest-footer__wave" aria-hidden="true"></div>
+
+      <!-- 푸터 메인 본문 -->
+      <div class="englishtest-footer__body">
+        <div class="englishtest-footer__inner">
+          <div class="englishtest-footer__content">
+            <!-- 좌측: 브랜드 로고 (화이트) -->
+            <div class="englishtest-footer__brand">
+              <a href="./englishtest.html" aria-label="Duolingo English Test 홈">
+                <img
+                  src="./assets/images/englishtest/logo_text_white.svg"
+                  alt="duolingo english test"
+                  class="englishtest-footer__logo"
+                />
+              </a>
+            </div>
+
+            <!-- 우측: 4개 카테고리 링크 목록 -->
+            <nav class="englishtest-footer__categories" aria-label="English Test 사이트 링크">
+              <!-- 1. 응시자 -->
+              <div class="englishtest-footer__col englishtest-footer__col--candidates">
+                <h3 class="englishtest-footer__col-title">응시자</h3>
+                <ul class="englishtest-footer__links">
+                  <li><a href="#">소개</a></li>
+                  <li><a href="#">인정 기관</a></li>
+                  <li><a href="#">채점 방식</a></li>
+                  <li><a href="#">시험 준비하기</a></li>
+                  <li><a href="#">편의 지원</a></li>
+                </ul>
+              </div>
+
+              <!-- 2. 교육기관 -->
+              <div class="englishtest-footer__col englishtest-footer__col--institutions">
+                <h3 class="englishtest-footer__col-title">교육기관</h3>
+                <ul class="englishtest-footer__links">
+                  <li><a href="#">소개</a></li>
+                  <li><a href="#">시험 보안</a></li>
+                  <li><a href="#">채점 방식</a></li>
+                  <li><a href="#">액세스 프로그램</a></li>
+                  <li><a href="#">글로벌 자문단</a></li>
+                </ul>
+              </div>
+
+              <!-- 3. 연구원 -->
+              <div class="englishtest-footer__col englishtest-footer__col--researchers">
+                <h3 class="englishtest-footer__col-title">연구원</h3>
+                <ul class="englishtest-footer__links">
+                  <li><a href="#">소개</a></li>
+                  <li><a href="#">연구 출판</a></li>
+                  <li><a href="#">듀오링고 팀</a></li>
+                  <li><a href="#">지원금 및 상금</a></li>
+                  <li><a href="#">블로그</a></li>
+                </ul>
+              </div>
+
+              <!-- 4. 고객지원 -->
+              <div class="englishtest-footer__col englishtest-footer__col--support">
+                <h3 class="englishtest-footer__col-title">고객지원</h3>
+                <ul class="englishtest-footer__links">
+                  <li><a href="#">도움말 센터</a></li>
+                  <li><a href="#">이용 약관</a></li>
+                  <li><a href="#">개인정보보호정책</a></li>
+                  <li><a href="#">시험 보안 및 신뢰 센터</a></li>
+                  <li><a href="#">내부고발자 신고양식</a></li>
+                </ul>
+              </div>
+            </nav>
           </div>
 
-          <!-- 2. 제품 -->
-          <div class="englishtest-footer__group englishtest-footer__group--products">
-            <h2 class="englishtest-footer__heading">제품</h2>
-            <ul class="englishtest-footer__list">
-              <li><a href="./index.html">듀오링고</a></li>
-              <li><a href="#">Duolingo for Schools</a></li>
-              <li><a href="./englishtest.html">Duolingo English Test</a></li>
-              <li><a href="#">팟캐스트</a></li>
-              <li><a href="#">Duolingo for Business</a></li>
-              <li><a href="#">슈퍼 듀오링고</a></li>
-              <li><a href="#">슈퍼 듀오링고 선물하기</a></li>
-              <li><a href="#">듀오링고 맥스</a></li>
-            </ul>
-          </div>
+          <!-- 하단 바: 언어 선택(좌측) 및 소셜 아이콘(우측) -->
+          <div class="englishtest-footer__bottom">
+            <div class="englishtest-footer__lang" role="button" tabindex="0" aria-label="사이트 언어: 한국어">
+              <img
+                src="./assets/images/englishtest/ico_lang.svg"
+                alt=""
+                class="englishtest-footer__lang-icon"
+                aria-hidden="true"
+              />
+              <span class="englishtest-footer__lang-text">한국어</span>
+            </div>
 
-          <!-- 3. 앱 -->
-          <div class="englishtest-footer__group englishtest-footer__group--apps">
-            <h2 class="englishtest-footer__heading">앱</h2>
-            <ul class="englishtest-footer__list">
-              <li><a href="#">안드로이드용 듀오링고</a></li>
-              <li><a href="#">iOS용 듀오링고</a></li>
-            </ul>
+            <div class="englishtest-footer__sns" aria-label="공식 소셜 미디어">
+              <a href="https://www.facebook.com/duolingo" target="_blank" rel="noopener noreferrer" class="englishtest-footer__sns-link" aria-label="Facebook">
+                <img src="./assets/images/englishtest/sns_facebook.svg" alt="" aria-hidden="true" />
+              </a>
+              <a href="https://www.instagram.com/duolingo" target="_blank" rel="noopener noreferrer" class="englishtest-footer__sns-link" aria-label="Instagram">
+                <img src="./assets/images/englishtest/sns_instagram.svg" alt="" aria-hidden="true" />
+              </a>
+              <a href="https://www.linkedin.com/company/duolingo" target="_blank" rel="noopener noreferrer" class="englishtest-footer__sns-link" aria-label="LinkedIn">
+                <img src="./assets/images/englishtest/sns_linkedin.svg" alt="" aria-hidden="true" />
+              </a>
+              <a href="https://twitter.com/duolingo" target="_blank" rel="noopener noreferrer" class="englishtest-footer__sns-link" aria-label="Twitter">
+                <img src="./assets/images/englishtest/sns_twitter.svg" alt="" aria-hidden="true" />
+              </a>
+              <a href="https://www.youtube.com/duolingo" target="_blank" rel="noopener noreferrer" class="englishtest-footer__sns-link" aria-label="YouTube">
+                <img src="./assets/images/englishtest/sns_youtube.svg" alt="" aria-hidden="true" />
+              </a>
+            </div>
           </div>
-
-          <!-- 4. 도움말 및 지원 -->
-          <div class="englishtest-footer__group englishtest-footer__group--help">
-            <h2 class="englishtest-footer__heading">도움말 및 지원</h2>
-            <ul class="englishtest-footer__list">
-              <li><a href="#">듀오링고 FAQ</a></li>
-              <li><a href="#">학교용 듀오링고 FAQ</a></li>
-              <li><a href="#">Duolingo English Test FAQ</a></li>
-              <li><a href="#">상태</a></li>
-            </ul>
-          </div>
-
-          <!-- 5. 개인정보처리방침 및 약관 -->
-          <div class="englishtest-footer__group englishtest-footer__group--terms">
-            <h2 class="englishtest-footer__heading">개인정보처리방침 및 약관</h2>
-            <ul class="englishtest-footer__list">
-              <li><a href="#">커뮤니티 지침</a></li>
-              <li><a href="#">규정</a></li>
-              <li><a href="#">개인정보보호</a></li>
-            </ul>
-          </div>
-
-          <!-- 6. 소셜 미디어 -->
-          <div class="englishtest-footer__group englishtest-footer__group--social">
-            <h2 class="englishtest-footer__heading">소셜 미디어</h2>
-            <ul class="englishtest-footer__list">
-              <li><a href="#">블로그</a></li>
-              <li><a href="#">Instagram</a></li>
-              <li><a href="#">TikTok</a></li>
-              <li><a href="#">Twitter</a></li>
-              <li><a href="#">YouTube</a></li>
-              <li><a href="#">LinkedIn</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 하단 언어 선택 섹션 -->
-        <div class="englishtest-footer__language">
-          <h2 class="englishtest-footer__lang-title">사이트 언어:</h2>
-          <ul class="englishtest-footer__lang-list">
-            <li><a href="#">العربية</a></li>
-            <li><a href="#">বাংলা</a></li>
-            <li><a href="#">Čeština</a></li>
-            <li><a href="#">Deutsch</a></li>
-            <li><a href="#">Ελληνικά</a></li>
-            <li><a href="#">English</a></li>
-            <li><a href="#">Español</a></li>
-            <li><a href="#">Français</a></li>
-            <li><a href="#">हिंदी</a></li>
-            <li><a href="#">Magyar</a></li>
-            <li><a href="#">Bahasa Indonesia</a></li>
-            <li><a href="#">Italiano</a></li>
-            <li><a href="#">日本語</a></li>
-            <li><a href="#">ಕನ್ನಡ</a></li>
-            <li><a href="#">한국어</a></li>
-            <li><a href="#">मराठी</a></li>
-            <li><a href="#">Nederlands</a></li>
-            <li><a href="#">Polski</a></li>
-            <li><a href="#">Português</a></li>
-            <li><a href="#">Română</a></li>
-            <li><a href="#">Русский</a></li>
-            <li><a href="#">svenska</a></li>
-            <li><a href="#">தமிழ்</a></li>
-            <li><a href="#">తెలుగు</a></li>
-            <li><a href="#">ภาษาไทย</a></li>
-            <li><a href="#">Tagalog</a></li>
-            <li><a href="#">Türkçe</a></li>
-            <li><a href="#">Українською</a></li>
-            <li><a href="#">اُردُو</a></li>
-            <li><a href="#">Tiếng Việt</a></li>
-            <li><a href="#">中文</a></li>
-          </ul>
         </div>
       </div>
     </footer>

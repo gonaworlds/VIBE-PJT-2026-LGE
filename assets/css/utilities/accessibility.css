@@ -1,4 +1,9 @@
 @layer utilities {
+  /* hidden 속성이 .btn 등의 display 지정보다 항상 우선하도록 보장 */
+  [hidden] {
+    display: none !important;
+  }
+
   .skip-link {
     position: absolute;
     inset-block-start: var(--space-2);

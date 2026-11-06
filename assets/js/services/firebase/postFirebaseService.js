@@ -19,6 +19,7 @@ import {
 import { db } from './firebaseConfig.js';
 import { generateInitialPosts } from '../mock/initialSeedData.js';
 import { CATEGORY_CONFIG } from '../../types/post.js';
+import { pickSiblings } from '../../utils/postSiblings.js';
 
 const COLLECTION_NAME = 'duo_notices';
 export const MAX_PINNED_POSTS = 5;
@@ -256,13 +257,7 @@ export const postFirebaseService = {
    */
   getSiblings: async (currentId) => {
     const list = await postFirebaseService.getAll();
-    const index = list.findIndex((item) => item.id === currentId);
-    if (index === -1) return { prev: null, next: null };
-
-    return {
-      prev: index > 0 ? list[index - 1] : null,
-      next: index < list.length - 1 ? list[index + 1] : null,
-    };
+    return pickSiblings(list, currentId);
   },
 
   /**

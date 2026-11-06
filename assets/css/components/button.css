@@ -1,25 +1,43 @@
+/* ==========================================================================
+   공통 버튼 컴포넌트 (전 페이지 공용)
+
+   색상    .btn                초록 (기본)
+           .btn--outline       흰색 + 회색 테두리
+           .btn--danger        흰색 + 빨간 글씨/테두리 (삭제)
+   글씨색  .btn--text-accent   파란 글씨 (outline 과 함께 사용)
+           .btn--text-primary  초록 글씨 (outline 과 함께 사용)
+   크기    .btn--sm            2.5rem  (헤더, 보조 버튼, 폼 액션, 모달)
+           (기본)              3.125rem
+           .btn--lg            3.25rem (페이지 주요 CTA)
+
+   누르는 동작: :active 시 아래 그림자(lip) 높이만큼 내려가며 그림자가 사라짐
+   ========================================================================== */
 @layer components {
   .btn {
     --btn-bg: var(--color-primary);
     --btn-fg: var(--color-snow);
     --btn-lip-color: var(--color-primary-lip);
+    --btn-lip-size: var(--lip-height);
     position: relative;
     isolation: isolate;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: var(--space-2);
     min-height: var(--button-height);
     padding-inline: var(--space-4);
     border: 0;
     border-radius: var(--radius-lg);
     background: var(--btn-bg);
-    box-shadow: 0 var(--lip-height) 0 var(--btn-lip-color);
+    box-shadow: 0 var(--btn-lip-size) 0 var(--btn-lip-color);
     color: var(--btn-fg);
     font-family: var(--font-display);
     font-size: var(--text-ui);
     font-weight: var(--bold);
     line-height: var(--line-height-ui);
     text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
     cursor: pointer;
     transition:
       filter var(--duration-fast) var(--ease-standard),
@@ -27,21 +45,59 @@
       box-shadow 0s;
   }
 
+  /* ---- 색상 ---- */
+  .btn--outline,
+  .btn--danger {
+    --btn-bg: var(--color-bg);
+    --btn-fg: var(--color-text);
+    --btn-lip-color: var(--color-border);
+    --btn-lip-size: 2px;
+    border: 2px solid var(--btn-lip-color);
+  }
+
+  .btn--danger {
+    --btn-fg: var(--color-cardinal-dark);
+    --btn-lip-color: var(--color-red-tint-border);
+  }
+
+  .btn--text-accent {
+    --btn-fg: var(--color-accent);
+  }
+
+  .btn--text-primary {
+    --btn-fg: var(--color-tree-green);
+    --btn-lip-color: var(--color-green-tint-border);
+  }
+
+  /* ---- 크기 ---- */
+  .btn--sm {
+    min-height: 2.5rem;
+    padding-inline: 1.125rem;
+    font-size: var(--text-ui-sm);
+  }
+
+  .btn--lg {
+    min-height: 3.25rem;
+    padding-inline: var(--space-8);
+    font-size: var(--text-ui-lg);
+  }
+
+  /* index 고정 헤더 CTA (layout 레이어보다 우선해야 하므로 여기서 지정) */
   .btn.site-header__compact-cta {
     min-height: 2.75rem;
   }
 
-  .btn--outline {
-    --btn-bg: var(--color-bg);
-    --btn-fg: var(--color-text);
-    --btn-lip-color: var(--color-border);
-    border: var(--border-card);
-    box-shadow: var(--shadow-lip-border);
+  /* ---- 상태 ---- */
+  .btn:active {
+    transform: translateY(var(--btn-lip-size));
+    box-shadow: none;
   }
 
-  .btn:active {
-    transform: translateY(var(--lip-height));
-    box-shadow: none;
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
   }
 
   .btn:focus-visible {
@@ -51,6 +107,11 @@
   @media (hover: hover) {
     .btn:hover {
       filter: brightness(1.08);
+    }
+
+    .btn--outline:hover,
+    .btn--danger:hover {
+      filter: brightness(0.97);
     }
   }
 

@@ -1,4 +1,5 @@
 import { postService } from '../services/postService.js';
+import { authService } from '../services/authService.js';
 import { CATEGORY_CONFIG } from '../types/post.js';
 
 /**
@@ -124,8 +125,27 @@ export class NoticeApp {
 
   async init() {
     this.setupHashRouting();
+    // 로그인 상태가 바뀌면(로그아웃, 권한 변경 등) 현재 화면을 권한에 맞게 다시 그림
+    authService.onChange(() => {
+      if (!this.loading) this.handleRoute({ fromAuthChange: true });
+    });
+    authService.verifySession();
     await this.loadPosts();
     this.handleRoute();
+  }
+
+  /** 글쓰기/수정/삭제 권한 (관리자 전용) */
+  canManagePosts() {
+    return authService.isAdmin();
+  }
+
+  /** 관리자 전용 기능 접근 시 안내 */
+  denyManageAccess() {
+    this.showToast(
+      authService.isLoggedIn()
+        ? '공지사항 작성·수정·삭제는 관리자만 할 수 있습니다.'
+        : '관리자 로그인 후 이용할 수 있습니다.'
+    );
   }
 
   setupHashRouting() {
@@ -134,9 +154,16 @@ export class NoticeApp {
     });
   }
 
-  handleRoute() {
+  handleRoute({ fromAuthChange = false } = {}) {
     const hash = window.location.hash.replace(/^#\/?/, '');
     const [route, id] = hash.split('/');
+
+    // 글쓰기/수정 화면은 관리자만 접근 가능 (주소 직접 입력 포함)
+    if ((route === 'write' || route === 'edit') && !this.canManagePosts()) {
+      this.denyManageAccess();
+      this.navigate(route === 'edit' && id ? `detail/${id}` : 'list');
+      return;
+    }
 
     if (route === 'write') {
       this.currentView = 'write';
@@ -149,7 +176,7 @@ export class NoticeApp {
     } else if (route === 'detail' && id) {
       this.currentView = 'detail';
       this.currentPostId = id;
-      this.renderDetail(id);
+      this.renderDetail(id, { countView: !fromAuthChange });
     } else {
       this.currentView = 'list';
       this.currentPostId = null;
@@ -157,7 +184,7 @@ export class NoticeApp {
     }
 
     this.updateHeroSubtitle();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (!fromAuthChange) window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   navigate(hash) {
@@ -258,13 +285,17 @@ export class NoticeApp {
             >
           </div>
 
-          <a href="#write" class="btn btn--write">
+          ${
+            this.canManagePosts()
+              ? `<a href="#write" class="btn btn--sm notice-write-btn">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 20h9"></path>
               <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
             </svg>
             글쓰기
-          </a>
+          </a>`
+              : ''
+          }
         </div>
       </div>
 
@@ -469,7 +500,7 @@ export class NoticeApp {
   // ==========================================================================
   // 2. 상세보기 화면 (Detail View)
   // ==========================================================================
-  async renderDetail(id) {
+  async renderDetail(id, { countView = true } = {}) {
     this.container.innerHTML = `
       <div class="notice-loading">
         <div class="notice-spinner"></div>
@@ -478,50 +509,30 @@ export class NoticeApp {
     `;
 
     try {
-      // 조회수 증가 및 상세 데이터 조회
-      await postService.incrementViews(id);
+      // 조회수 증가 및 상세 데이터 조회 (로그인 상태 변경에 따른 재렌더링 시에는 증가하지 않음)
+      if (countView) await postService.incrementViews(id);
       const post = await postService.getById(id);
 
       if (!post) {
         this.container.innerHTML = `
           <div style="text-align: center; padding: 4rem 1rem;">
             <h3 style="margin-bottom: 1rem; color: #333;">존재하지 않거나 삭제된 공지사항입니다.</h3>
-            <a href="#list" class="btn btn--write">목록으로 돌아가기</a>
+            <a href="#list" class="btn btn--sm">목록으로 돌아가기</a>
           </div>
         `;
         return;
       }
 
       // 이전글 / 다음글 정보 조회
-      const { prev, next } = await postService.getSiblings(id);
+      const { prev, next, nearby = [] } = await postService.getSiblings(id);
       const catConf = CATEGORY_CONFIG[post.category] || { label: post.categoryLabel || '안내', badgeClass: 'badge--notice' };
       const createdFormatted = this.formatDateTime(post.createdAt);
 
       const html = `
         <div class="notice-detail__header-bar">
-          <a href="#list" class="notice-btn-back">
+          <a href="#list" class="btn btn--outline btn--sm">
             ‹ 목록으로
           </a>
-          <div class="notice-detail__nav">
-            <button
-              type="button"
-              class="notice-btn-back"
-              id="btnPrevPost"
-              ${!prev ? 'disabled style="opacity: 0.4; cursor: not-allowed;"' : ''}
-              title="${prev ? this.escapeHtml(prev.title) : '이전글 없음'}"
-            >
-              ‹ 이전글
-            </button>
-            <button
-              type="button"
-              class="notice-btn-back"
-              id="btnNextPost"
-              ${!next ? 'disabled style="opacity: 0.4; cursor: not-allowed;"' : ''}
-              title="${next ? this.escapeHtml(next.title) : '다음글 없음'}"
-            >
-              다음글 ›
-            </button>
-          </div>
         </div>
 
         <div class="notice-detail__post-meta">
@@ -577,14 +588,35 @@ export class NoticeApp {
         }
 
         <div class="notice-detail__footer-bar">
-          <a href="#list" class="notice-btn-back">
-            ‹ 목록으로
-          </a>
+          <div class="notice-detail__nav">
+            <button
+              type="button"
+              class="btn btn--outline btn--sm"
+              id="btnPrevPost"
+              ${prev ? '' : 'disabled'}
+              title="${prev ? this.escapeHtml(prev.title) : '이전글 없음'}"
+            >
+              ‹ 이전글
+            </button>
+            <button
+              type="button"
+              class="btn btn--outline btn--sm"
+              id="btnNextPost"
+              ${next ? '' : 'disabled'}
+              title="${next ? this.escapeHtml(next.title) : '다음글 없음'}"
+            >
+              다음글 ›
+            </button>
+          </div>
           <div class="notice-detail__footer-actions">
-            <a href="#edit/${post.id}" class="notice-btn-back" style="color: var(--color-tree-green); border-color: var(--color-tree-green);">
+            ${
+              this.canManagePosts()
+                ? `<a href="#edit/${post.id}" class="btn btn--outline btn--text-primary btn--sm">
               ✏️ 수정하기
-            </a>
-            <button type="button" class="notice-btn-back" id="btnSharePost">
+            </a>`
+                : ''
+            }
+            <button type="button" class="btn btn--outline btn--sm" id="btnSharePost">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="18" cy="5" r="3"></circle>
                 <circle cx="6" cy="12" r="3"></circle>
@@ -596,6 +628,8 @@ export class NoticeApp {
             </button>
           </div>
         </div>
+
+        ${this.renderSiblingList(nearby)}
       `;
 
       this.container.innerHTML = html;
@@ -604,6 +638,40 @@ export class NoticeApp {
       console.error('[NoticeApp] Failed to load detail:', err);
       this.showToast('게시글을 불러올 수 없습니다.');
     }
+  }
+
+  /**
+   * 상세 하단 이전글/다음글 미리보기 목록 (현재 글 포함 최대 3개)
+   * @param {Array<{ post: object, offset: number }>} nearby
+   */
+  renderSiblingList(nearby) {
+    if (nearby.length < 2) return '';
+
+    const rows = nearby
+      .map(({ post: item, offset }) => {
+        const label = offset < 0 ? '이전글' : offset > 0 ? '다음글' : '현재 글';
+        const arrow = offset < 0 ? '▲' : offset > 0 ? '▼' : '';
+        const title = this.escapeHtml(item.title);
+        const titleHtml =
+          offset === 0
+            ? `<span class="notice-siblings__title" aria-current="page">${title}</span>`
+            : `<a class="notice-siblings__title" href="#detail/${item.id}">${title}</a>`;
+
+        return `
+          <li class="notice-siblings__item${offset === 0 ? ' is-current' : ''}">
+            <span class="notice-siblings__label">${label}${arrow ? ` <span aria-hidden="true">${arrow}</span>` : ''}</span>
+            ${titleHtml}
+            <span class="notice-siblings__date">${this.formatDate(item.createdAt)}</span>
+          </li>
+        `;
+      })
+      .join('');
+
+    return `
+      <nav class="notice-siblings" aria-label="이전글 다음글 목록">
+        <ul class="notice-siblings__list">${rows}</ul>
+      </nav>
+    `;
   }
 
   attachDetailEvents(post, prev, next) {
@@ -655,7 +723,7 @@ export class NoticeApp {
 
     const html = `
       <div class="notice-form-header">
-        <a href="#list" class="notice-btn-back">‹ 목록으로</a>
+        <a href="#list" class="btn btn--outline btn--sm">‹ 목록으로</a>
         <h2 class="notice-form-header__title">
           <span>✏️</span> 공지사항 글쓰기
         </h2>
@@ -719,7 +787,7 @@ export class NoticeApp {
             첨부파일
           </label>
           <div class="notice-file-upload-wrap">
-            <label class="btn btn--outline" style="min-height: 2.25rem; padding-inline: 1rem; cursor: pointer;">
+            <label class="btn btn--outline btn--sm">
               📎 파일 첨부
               <input type="file" id="writeFileInput" multiple style="display: none;" accept=".jpg,.png,.pdf,.doc,.docx,.xls,.xlsx,.zip">
             </label>
@@ -731,9 +799,9 @@ export class NoticeApp {
         <div class="notice-form-actions">
           <div></div>
           <div class="notice-form-actions__right">
-            <button type="button" class="btn btn--cancel" id="btnCancelWrite">취소</button>
-            <button type="submit" class="btn btn--submit">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
+            <button type="button" class="btn btn--outline btn--sm" id="btnCancelWrite">취소</button>
+            <button type="submit" class="btn btn--sm">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="22" y1="2" x2="11" y2="13"></line>
                 <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
               </svg>
@@ -772,7 +840,7 @@ export class NoticeApp {
 
       const html = `
         <div class="notice-form-header">
-          <a href="#detail/${post.id}" class="notice-btn-back">‹ 목록으로</a>
+          <a href="#detail/${post.id}" class="btn btn--outline btn--sm">‹ 목록으로</a>
           <h2 class="notice-form-header__title">
             <span>✏️</span> 공지사항 글수정
           </h2>
@@ -838,7 +906,7 @@ export class NoticeApp {
             </label>
             <div class="notice-file-upload-wrap">
               <div class="notice-file-chips" id="fileChipsContainer"></div>
-              <label class="btn btn--outline" style="min-height: 2.25rem; padding-inline: 1rem; cursor: pointer;">
+              <label class="btn btn--outline btn--sm">
                 📎 파일 추가
                 <input type="file" id="editFileInput" multiple style="display: none;" accept=".jpg,.png,.pdf,.doc,.docx,.xls,.xlsx,.zip">
               </label>
@@ -847,12 +915,12 @@ export class NoticeApp {
           </div>
 
           <div class="notice-form-actions">
-            <button type="button" class="btn btn--delete" id="btnDeletePost">
+            <button type="button" class="btn btn--danger btn--sm" id="btnDeletePost">
               🗑️ 삭제하기
             </button>
             <div class="notice-form-actions__right">
-              <button type="button" class="btn btn--cancel" id="btnCancelEdit">취소</button>
-              <button type="submit" class="btn btn--submit">
+              <button type="button" class="btn btn--outline btn--sm" id="btnCancelEdit">취소</button>
+              <button type="submit" class="btn btn--sm">
                 ✓ 수정하기
               </button>
             </div>
@@ -1153,6 +1221,10 @@ export class NoticeApp {
             '공지사항 삭제',
             '정말 이 공지사항을 삭제하시겠습니까? 삭제된 데이터는 복구할 수 없습니다.',
             async () => {
+              if (!this.canManagePosts()) {
+                this.denyManageAccess();
+                return;
+              }
               try {
                 await postService.delete(existingPost.id);
                 this.showToast('공지사항이 삭제되었습니다.');
@@ -1171,6 +1243,12 @@ export class NoticeApp {
     // 폼 제출 (등록 또는 수정)
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      // 작성 도중 로그아웃/권한 변경된 경우 차단
+      if (!this.canManagePosts()) {
+        this.denyManageAccess();
+        return;
+      }
 
       const category = categoryEl.value;
       const title = titleEl.value.trim();
@@ -1244,6 +1322,7 @@ export class NoticeApp {
               name: '듀오링고 운영팀',
               role: '관리자',
             },
+            createdBy: authService.getCurrentUser()?.userId || null,
             attachments: this.currentAttachments,
           });
           this.showToast('공지사항이 등록되었습니다.');
@@ -1860,8 +1939,8 @@ export class NoticeApp {
         <h3 class="notice-modal__title">${this.escapeHtml(title)}</h3>
         <p class="notice-modal__desc">${this.escapeHtml(description)}</p>
         <div class="notice-modal__actions">
-          <button type="button" class="btn btn--cancel" id="btnModalCancel" style="min-height: 2.5rem; padding-inline: 1rem;">취소</button>
-          <button type="button" class="btn btn--delete" id="btnModalConfirm" style="min-height: 2.5rem; padding-inline: 1rem;">삭제하기</button>
+          <button type="button" class="btn btn--outline btn--sm" id="btnModalCancel">취소</button>
+          <button type="button" class="btn btn--danger btn--sm" id="btnModalConfirm">삭제하기</button>
         </div>
       </div>
     `;
@@ -1898,7 +1977,7 @@ export class NoticeApp {
         <h3 class="notice-modal__title" style="margin-bottom: 0.5rem;">알림</h3>
         <p class="notice-modal__desc" style="margin-bottom: 1.5rem; font-size: 1rem; color: #2b2b2b; font-weight: 600; line-height: 1.5;">${this.escapeHtml(message)}</p>
         <div class="notice-modal__actions" style="justify-content: center;">
-          <button type="button" class="btn btn--submit" id="btnModalWarningOk" style="min-height: 2.5rem; padding-inline: 2rem;">확인</button>
+          <button type="button" class="btn btn--sm" id="btnModalWarningOk" style="min-width: 6rem;">확인</button>
         </div>
       </div>
     `;

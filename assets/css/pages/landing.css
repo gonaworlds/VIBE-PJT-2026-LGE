@@ -396,35 +396,12 @@
     height: auto;
   }
 
+  /* 공통 .btn.btn--outline 사용. Super 보라 배경 위 배치용 크기·글씨색만 지정 */
   .try1week__button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    --btn-fg: #100f40;
     min-width: 8.25rem;
     min-height: 2.625rem;
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius-md);
-    background: var(--color-snow);
-    box-shadow: 0 4px 0 #a6a6b6;
-    color: #100f40;
     font-size: var(--text-ui-sm);
-    font-family: var(--font-display);
-    font-weight: var(--bold);
-    line-height: var(--line-height-ui);
-    text-align: center;
-    transition:
-      transform var(--duration-fast) var(--ease-standard),
-      box-shadow var(--duration-fast) var(--ease-standard);
-  }
-
-  .try1week__button:active {
-    transform: translateY(4px);
-    box-shadow: none;
-  }
-
-  .try1week__button:focus-visible {
-    outline: var(--focus-outline);
-    outline-offset: var(--focus-outline-offset);
   }
 
   @media (min-width: 48rem) {
@@ -547,7 +524,6 @@
     width: 100%;
     max-width: 22rem;
     min-height: 3.25rem;
-    color: var(--color-accent);
     font-size: var(--text-ui-lg);
   }
 
@@ -759,7 +735,7 @@
     display: flex;
     flex: 1 1 auto;
     align-items: stretch;
-    min-block-size: calc(100dvh - var(--header-height) - var(--footer-height));
+    /* min-block-size: calc(100dvh - var(--header-height) - var(--footer-height)); */
     padding-block: var(--space-8);
     padding-block-start: calc(var(--compact-nav-height) + var(--space-8));
   }

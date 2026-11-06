@@ -12,9 +12,13 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Brand Fonts Preload (.woff2) -->
+    <link rel="preload" href="./assets/fonts/DuolingoSansVF.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="./assets/fonts/Feather Bold-700-ui.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;600;700&display=swap">
     <link rel="stylesheet" href="./assets/css/main.css">
+    <script type="module" src="./assets/js/auth-header.js"></script>
     <script type="module" src="./assets/js/notice-page.js"></script>
     <script type="module" src="./assets/js/footer.js"></script>
   </head>
@@ -27,14 +31,19 @@
         <a href="./index.html" class="notice-header__brand" aria-label="듀오링고 홈으로 이동">
           <img src="./assets/images/nav_logo.svg" alt="duolingo">
         </a>
-        <a
-          class="btn notice-header__cta"
-          href="https://www.duolingo.com/register"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          시작하기
-        </a>
+        <div class="auth-header-actions">
+          <!-- 로그인 상태 표시 (assets/js/auth-header.js) -->
+          <span class="auth-welcome" data-auth="welcome" hidden></span>
+          <a class="btn btn--outline btn--sm auth-header-btn" data-auth="login" href="./login.html">로그인</a>
+          <a
+            class="btn btn--sm notice-header__cta auth-header-btn"
+            href="https://www.duolingo.com/register"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            시작하기
+          </a>
+        </div>
       </div>
     </header>
 
@@ -67,7 +76,7 @@
         <div class="notice-card-wrapper">
           <!-- 부엉이 및 캘린더 장식 -->
           <img
-            src="./assets/images/notice/duo-peeking.png"
+            src="./assets/images/notice/duo-peeking.svg"
             alt="부엉이 듀오"
             class="notice-mascot-owl"
             aria-hidden="true"

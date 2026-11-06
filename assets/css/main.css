@@ -13,4 +13,5 @@
 @import "./pages/landing.css" layer(pages);
 @import "./pages/notice.css" layer(pages);
 @import "./pages/englishtest.css" layer(pages);
+@import "./pages/auth.css" layer(pages);
 @import "./utilities/accessibility.css" layer(utilities);
