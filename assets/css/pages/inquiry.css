@@ -1,0 +1,452 @@
+/**
+ * Inquiry (1:1 문의 / Q&A) 게시판 전용 스타일
+ * 공지사항(notice.css) 기반 위에 Q&A 전용 컴포넌트(답변 카드, 질문유형 뱃지, 비밀글 처리 등)를 확장합니다.
+ */
+
+@import url('./notice.css');
+
+/* ==========================================================================
+   1. 질문유형 뱃지 (5가지 유형)
+   ========================================================================== */
+.badge--delivery {
+  background-color: #e0f2fe;
+  color: #0284c7;
+  border-color: #bae6fd;
+}
+
+.badge--account {
+  background-color: #ede9fe;
+  color: #7c3aed;
+  border-color: #ddd6fe;
+}
+
+.badge--refund {
+  background-color: #ffedd5;
+  color: #ea580c;
+  border-color: #fed7aa;
+}
+
+.badge--error {
+  background-color: #fee2e2;
+  color: #dc2626;
+  border-color: #fecaca;
+}
+
+.badge--etc {
+  background-color: #f3f4f6;
+  color: #4b5563;
+  border-color: #e5e7eb;
+}
+
+/* ==========================================================================
+   2. 답변 상태 뱃지 (리스트 첫 열 & 상세 상단)
+   ========================================================================== */
+.badge--status-answered {
+  background-color: #58cc02;
+  color: #ffffff;
+  border-color: #46a302;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge--status-answered::before {
+  content: "✓";
+  font-size: 0.85em;
+  font-weight: 900;
+}
+
+.badge--status-waiting {
+  background-color: #f5f5f5;
+  color: #777777;
+  border-color: #e5e5e5;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   3. 비밀글 (비공개) 표시
+   ========================================================================== */
+.inquiry-lock-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  vertical-align: -2px;
+  color: #888888;
+}
+
+.inquiry-lock-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #dc2626;
+  background-color: #fef2f2;
+  border: 1px solid #fee2e2;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* ==========================================================================
+   4. 질문유형 선택기 (글쓰기 / 글수정 폼)
+   ========================================================================== */
+.inquiry-category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.inquiry-category-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 10px;
+  border: 2px solid #e5e5e5;
+  border-radius: 14px;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.inquiry-category-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.inquiry-category-card:hover {
+  border-color: #58cc02;
+  background-color: #f7fee7;
+}
+
+.inquiry-category-card.is-selected {
+  border-color: #58cc02;
+  background-color: #f0fdf4;
+  box-shadow: 0 3px 0 #46a302;
+  transform: translateY(-2px);
+}
+
+.inquiry-category-card__label {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #4b4b4b;
+}
+
+.inquiry-category-card.is-selected .inquiry-category-card__label {
+  color: #166534;
+}
+
+/* 비밀글 설정 토글 스위치 / 체크박스 */
+.inquiry-secret-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background-color: #fafafa;
+  border: 1.5px solid #e5e5e5;
+  border-radius: 14px;
+  margin-top: 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s ease;
+}
+
+.inquiry-secret-toggle:hover {
+  background-color: #f4f4f4;
+}
+
+.inquiry-secret-toggle input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #58cc02;
+  cursor: pointer;
+}
+
+.inquiry-secret-toggle__title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.inquiry-secret-toggle__desc {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-left: auto;
+}
+
+/* ==========================================================================
+   5. 관리자 답변 영역 (상세 화면 Q&A 분기)
+   ========================================================================== */
+.inquiry-answer-wrapper {
+  margin-top: 40px;
+  padding-top: 36px;
+  border-top: 2px dashed #e5e5e5;
+  position: relative;
+}
+
+/* 답변 카드 */
+.inquiry-answer-card {
+  background-color: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.inquiry-answer-card::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 36px;
+  width: 20px;
+  height: 20px;
+  background-color: #f8fafc;
+  border-top: 2px solid #e2e8f0;
+  border-left: 2px solid #e2e8f0;
+  transform: rotate(45deg);
+}
+
+.inquiry-answer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.inquiry-answer-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.inquiry-answer-avatar {
+  width: 44px;
+  height: 44px;
+  background-color: #58cc02;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(88, 204, 2, 0.3);
+}
+
+.inquiry-answer-avatar img {
+  width: 26px;
+  height: 26px;
+}
+
+.inquiry-answer-name-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.inquiry-answer-name {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inquiry-answer-badge-tag {
+  font-size: 0.75rem;
+  background-color: #58cc02;
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 800;
+}
+
+.inquiry-answer-date {
+  font-size: 0.825rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.inquiry-answer-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inquiry-answer-content {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #334155;
+  min-height: 80px;
+  word-break: break-word;
+}
+
+/* 답변 대기 중 안내 카드 (답변이 없을 때) */
+.inquiry-waiting-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background-color: #f8fafc;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.inquiry-waiting-icon {
+  width: 48px;
+  height: 48px;
+  background-color: #e2e8f0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #64748b;
+}
+
+.inquiry-waiting-text h4 {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #334155;
+  margin: 0 0 4px 0;
+}
+
+.inquiry-waiting-text p {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* 관리자 답변 작성/수정 폼 */
+.inquiry-answer-form-card {
+  background-color: #ffffff;
+  border: 2px solid #58cc02;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(88, 204, 2, 0.12);
+  margin-top: 20px;
+}
+
+.inquiry-answer-form-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0 0 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inquiry-answer-textarea {
+  width: 100%;
+  min-height: 140px;
+  padding: 16px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  box-sizing: border-box;
+  resize: vertical;
+  transition: border-color 0.15s ease;
+}
+
+.inquiry-answer-textarea:focus {
+  outline: none;
+  border-color: #58cc02;
+  box-shadow: 0 0 0 3px rgba(88, 204, 2, 0.15);
+}
+
+.inquiry-answer-form-btns {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* ==========================================================================
+   6. 비공개 글 열람 불가 안내 카드 (타인 또는 비로그인)
+   ========================================================================== */
+.inquiry-locked-card {
+  text-align: center;
+  padding: 60px 24px;
+  background-color: #fdfdfd;
+  border: 2px dashed #e5e5e5;
+  border-radius: 20px;
+  margin: 20px 0;
+}
+
+.inquiry-locked-icon {
+  width: 64px;
+  height: 64px;
+  background-color: #fee2e2;
+  color: #dc2626;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.inquiry-locked-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1f2937;
+  margin: 0 0 10px 0;
+}
+
+.inquiry-locked-desc {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin: 0 0 28px 0;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   7. 반응형 미디어쿼리 (모바일 대응)
+   ========================================================================== */
+@media (max-width: 767px) {
+  .inquiry-category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .inquiry-answer-card {
+    padding: 20px 16px;
+  }
+
+  .inquiry-answer-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .inquiry-answer-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .inquiry-secret-toggle {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .inquiry-secret-toggle__desc {
+    margin-left: 0;
+  }
+}
+

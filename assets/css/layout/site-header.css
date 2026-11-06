@@ -1,4 +1,15 @@
 @layer layout {
+  /* 공통 헤더 자리표시자 (assets/js/layout/site-layout.js 가 교체하기 전 높이 확보 → 화면 밀림 방지) */
+  .notice-page > [data-site-header] {
+    display: block;
+    height: 70px;
+  }
+
+  .englishtest-page > [data-site-header] {
+    display: block;
+    height: 57px;
+  }
+
   .site-header {
     display: flex;
     flex: 1 0 auto;

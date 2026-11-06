@@ -56,11 +56,30 @@ export const initLottieScenes = () => {
       updateScrollScene(record);
       return;
     }
-    const canPlay = record.visible && !document.hidden && !motionQuery.matches;
+    // 시간 기반 장면: 화면 안에 있는 동안 계속 반복 재생, 화면 밖에서는 일시정지
+    const canPlay = canPlayRecord(record);
     for (const animation of record.animations) {
       if (canPlay && !animation.isPaused) continue;
       if (canPlay && !record.completed.has(animation)) animation.play();
       else animation.pause();
+    }
+  };
+
+  const canPlayRecord = (record) =>
+    record.ready && record.visible && !document.hidden && !motionQuery.matches;
+
+  /**
+   * 한 바퀴 재생이 끝난 애니메이션 처리 — 같은 장면의 모든 레이어가 끝나면 함께 처음부터 다시 재생
+   * (Ending 처럼 JSON 이 여러 개인 장면도 서로 어긋나지 않게 동기화)
+   */
+  const handleLoopComplete = (record, animation) => {
+    record.completed.add(animation);
+    if (!record.animations.every((item) => record.completed.has(item))) return;
+    record.completed.clear();
+    const restart = canPlayRecord(record);
+    for (const item of record.animations) {
+      if (restart) item.goToAndPlay(0, true);
+      else item.goToAndStop(0, true);
     }
   };
 
@@ -113,7 +132,9 @@ export const initLottieScenes = () => {
         animation.addEventListener("DOMLoaded", handleReady);
         animation.addEventListener("data_failed", handleFailure);
         animation.addEventListener("error", handleFailure);
-        animation.addEventListener("complete", () => record.completed.add(animation));
+        animation.addEventListener("complete", () => {
+          if (!record.isScrollDriven) handleLoopComplete(record, animation);
+        });
       })));
       if (controller.signal.aborted) return;
       record.ready = true;
@@ -138,15 +159,7 @@ export const initLottieScenes = () => {
   const visibleObserver = new IntersectionObserver((entries) => {
     for (const entry of entries) {
       const record = records.find((item) => item.host === entry.target);
-      const isEntering = entry.isIntersecting && !record.visible;
-      // Downloads retain their independent time-based / scroll-driven behavior.
-      // Other finished scenes replay on re-entry; unfinished scenes resume.
-      const isComplete = record.animations.length > 0
-        && record.animations.every((animation) => record.completed.has(animation));
-      if (isEntering && !record.id.startsWith("downloads-") && isComplete) {
-        record.animations.forEach((animation) => animation.goToAndStop(0, true));
-        record.completed.clear();
-      }
+      // 시간 기반 장면은 화면에 다시 들어오면 멈췄던 지점부터 이어서 반복 재생
       record.visible = entry.isIntersecting;
       syncPlayback(record);
     }

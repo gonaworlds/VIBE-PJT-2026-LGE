@@ -275,20 +275,27 @@
       margin-block-start: 2.5rem;
     }
 
+    /* 데스크톱 다운로드 버튼: 기존 대비 2배 크기 */
+    .downloads__links {
+      gap: var(--space-6);
+    }
+
     .downloads__link {
-      width: 8.25rem;
-      min-height: 2.25rem;
-      padding: var(--space-1) var(--space-2);
-      font-size: 0.5rem;
+      width: 16.5rem;
+      min-height: 4.5rem;
+      gap: var(--space-3);
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-lg);
+      font-size: 1rem;
     }
 
     .downloads__link:last-child {
-      width: 6.75rem;
+      width: 13.5rem;
     }
 
     .downloads__link img {
-      width: 1rem;
-      height: 1rem;
+      width: 2rem;
+      height: 2rem;
     }
   }
 

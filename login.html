@@ -8,26 +8,14 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
     <link rel="stylesheet" href="./assets/css/main.css">
-    <script type="module" src="./assets/js/auth-header.js"></script>
+    <script type="module" src="./assets/js/layout/site-layout.js"></script>
     <script type="module" src="./assets/js/login-page.js"></script>
-    <script type="module" src="./assets/js/footer.js"></script>
   </head>
   <body class="notice-page auth-page">
     <a class="skip-link" href="#main">본문 바로가기</a>
 
-    <!-- 1. Header (공지사항 헤더와 동일) -->
-    <header class="notice-header">
-      <div class="notice-header__inner">
-        <a href="./index.html" class="notice-header__brand" aria-label="듀오링고 홈으로 이동">
-          <img src="./assets/images/nav_logo.svg" alt="duolingo">
-        </a>
-        <div class="auth-header-actions">
-          <span class="auth-welcome" data-auth="welcome" hidden></span>
-          <a class="btn btn--outline btn--sm auth-header-btn" data-auth="login" data-auth-logout-only href="./login.html" hidden>로그인</a>
-          <a class="btn btn--sm auth-header-btn notice-header__cta" href="./notice.html">공지사항</a>
-        </div>
-      </div>
-    </header>
+    <!-- 공통 헤더: assets/js/layout (layout-data.js 에서 관리) -->
+    <div data-site-header></div>
 
     <main id="main">
       <!-- Hero Banner -->
@@ -147,90 +135,7 @@
       </section>
     </main>
 
-    <!-- Site Footer (공통 푸터) -->
-    <footer class="site-footer">
-      <div class="inner-box">
-        <div class="part sitemap" data-js-sitemap>
-          <section class="sitemap__group" aria-labelledby="footer-about" data-js-footer-group="about">
-            <h2 class="site-footer__heading" id="footer-about">듀오링고 소개</h2>
-            <ul class="sitemap__list">
-              <li>학습 과정</li>
-              <li>사명</li>
-              <li>교육방식</li>
-              <li>효과</li>
-              <li>팀원 소개</li>
-              <li>채용 정보</li>
-              <li>블로그</li>
-              <li>스토어</li>
-              <li>보도 자료</li>
-              <li>투자자 정보</li>
-              <li>문의하기</li>
-            </ul>
-          </section>
-          <section class="sitemap__group" aria-labelledby="footer-products" data-js-footer-group="products">
-            <h2 class="site-footer__heading" id="footer-products">제품</h2>
-            <ul class="sitemap__list">
-              <li>듀오링고</li>
-              <li>Duolingo for Schools</li>
-              <li>Duolingo English Test</li>
-              <li>팟캐스트</li>
-              <li>Duolingo for Business</li>
-              <li>슈퍼 듀오링고</li>
-              <li>슈퍼 듀오링고 선물하기</li>
-              <li>듀오링고 맥스</li>
-            </ul>
-          </section>
-          <section class="sitemap__group" aria-labelledby="footer-apps" data-js-footer-group="apps">
-            <h2 class="site-footer__heading" id="footer-apps">앱</h2>
-            <ul class="sitemap__list">
-              <li>안드로이드용 듀오링고</li>
-              <li>iOS용 듀오링고</li>
-            </ul>
-          </section>
-          <section class="sitemap__group" aria-labelledby="footer-support" data-js-footer-group="support">
-            <h2 class="site-footer__heading" id="footer-support">도움말 및 지원</h2>
-            <ul class="sitemap__list">
-              <li><a href="./notice.html" style="color: inherit; text-decoration: none;">공지사항</a></li>
-              <li>듀오링고 FAQ</li>
-              <li>학교용 듀오링고 FAQ</li>
-              <li>Duolingo English Test FAQ</li>
-              <li>상태</li>
-            </ul>
-          </section>
-          <section class="sitemap__group" aria-labelledby="footer-legal" data-js-footer-group="legal">
-            <h2 class="site-footer__heading" id="footer-legal">개인정보처리방침 및 약관</h2>
-            <ul class="sitemap__list">
-              <li>커뮤니티 지침</li>
-              <li>규정</li>
-              <li>개인정보보호</li>
-            </ul>
-          </section>
-          <section class="sitemap__group" aria-labelledby="footer-social" data-js-footer-group="social">
-            <h2 class="site-footer__heading" id="footer-social">소셜 미디어</h2>
-            <ul class="sitemap__list">
-              <li>블로그</li>
-              <li>Instagram</li>
-              <li>TikTok</li>
-              <li>Twitter</li>
-              <li>YouTube</li>
-              <li>LinkedIn</li>
-            </ul>
-          </section>
-        </div>
-        <section class="part footer-site-language" aria-labelledby="footer-language-title">
-          <h2 class="site-footer__heading footer-site-language__heading" id="footer-language-title">사이트 언어:</h2>
-          <ul class="footer-site-language__list">
-            <li>한국어</li>
-            <li>English</li>
-            <li>Español</li>
-            <li>Français</li>
-            <li>Deutsch</li>
-            <li>Italiano</li>
-            <li>日本語</li>
-            <li>中文</li>
-          </ul>
-        </section>
-      </div>
-    </footer>
+    <!-- 공통 푸터: assets/js/layout (layout-data.js 에서 관리) -->
+    <div data-site-footer></div>
   </body>
 </html>

@@ -1,4 +1,5 @@
-import { initFooter } from "./footer.js";
+// 공통 헤더/푸터를 먼저 렌더링 (initCompactHeaderNav 가 헤더 DOM 을 사용)
+import "./layout/site-layout.js";
 import { initLottieScenes } from "./lottie-scenes.js";
 import { initScrollBackground } from "./scroll-background.js";
 
@@ -133,11 +134,10 @@ const initCompactHeaderNav = () => {
 
 const destroyLanguageScroller = initLanguageScroller();
 const destroyCompactHeaderNav = initCompactHeaderNav();
-const destroyFooter = initFooter();
 const destroyLottieScenes = initLottieScenes();
 const destroyScrollBackground = initScrollBackground();
 
 export {
-  destroyCompactHeaderNav, destroyLanguageScroller, destroyFooter,
+  destroyCompactHeaderNav, destroyLanguageScroller,
   destroyScrollBackground, destroyLottieScenes,
 };

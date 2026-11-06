@@ -1,5 +1,5 @@
 /**
- * 공통 헤더 로그인 상태 표시 (notice.html, englishtest.html)
+ * 공통 헤더 로그인 상태 표시 (layout/site-layout.js 에서 initAuthHeader 호출)
  *
  * 마크업 규칙 (data-auth 속성)
  * - [data-auth="login"]   : 로그아웃 상태 → "로그인" (로그인 화면으로 이동)
@@ -66,7 +66,18 @@ function render(user) {
   });
 }
 
-function init() {
+let initialized = false;
+
+/**
+ * 헤더 로그인 상태 표시 시작 (layout/site-layout.js 가 헤더 렌더링 직후 호출)
+ * 여러 번 호출해도 한 번만 동작합니다.
+ */
+export function initAuthHeader() {
+  if (initialized) {
+    render(authService.getCurrentUser());
+    return;
+  }
+  initialized = true;
   render(authService.getCurrentUser());
 
   document.addEventListener('click', (e) => {
@@ -80,10 +91,4 @@ function init() {
   window.addEventListener('hashchange', () => render(authService.getCurrentUser()));
   authService.onChange(render);
   authService.verifySession();
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
-  init();
 }

@@ -23,38 +23,15 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap"
     >
     <link rel="stylesheet" href="./assets/css/main.css">
+    <script type="module" src="./assets/js/layout/site-layout.js"></script>
     <script type="module" src="./assets/js/main.js"></script>
   </head>
   <body>
     <a class="skip-link" href="#main">본문 바로가기</a>
 
     <header class="site-header">
-      <!-- Primary Navigation -->
-      <div class="inner-box" data-js-primary-nav>
-        <div class="part part--between">
-          <span class="site-header__brand">
-            <img src="./assets/images/nav_logo.svg" alt="Duolingo">
-          </span>
-          <div class="site-header__controls">
-            <details class="site-language">
-              <summary class="site-language__summary" tabindex="0">
-                사이트 언어: 한국어
-                <span class="site-language__chevron" aria-hidden="true"></span>
-              </summary>
-              <p class="site-language__panel">현재 사이트 언어는 한국어예요.</p>
-            </details>
-            <a
-              class="btn site-header__compact-cta"
-              href="https://www.duolingo.com/register"
-              aria-hidden="true"
-              inert
-              tabindex="-1"
-            >
-              시작하기
-            </a>
-          </div>
-        </div>
-      </div>
+      <!-- 공통 헤더: assets/js/layout (layout-data.js 에서 관리) -->
+      <div data-site-header></div>
       <!-- Hero Section -->
       <section class="section hero" aria-labelledby="landing-title">
         <div class="inner-box">
@@ -285,113 +262,7 @@
         >
       </section>
     </main>
-    <footer class="site-footer">
-      <div class="inner-box">
-        <div class="part sitemap" aria-label="사이트맵" data-js-footer-sitemap>
-          <!-- Links are intentionally deferred: display text without fake destinations. -->
-          <section class="sitemap__group" aria-labelledby="footer-about" data-js-footer-group="about">
-            <h2 class="site-footer__heading" id="footer-about">듀오링고 소개</h2>
-            <ul class="sitemap__list">
-              <li>학습 과정</li>
-              <li>사명</li>
-              <li>교육방식</li>
-              <li>학습 효과</li>
-              <li>듀오링고 핸드북</li>
-              <li>연구</li>
-              <li>인재 채용</li>
-              <li>스토어</li>
-              <li>언론</li>
-              <li>투자자</li>
-              <li>듀오링고에 문의하기</li>
-            </ul>
-          </section>
-          <section class="sitemap__group" aria-labelledby="footer-products" data-js-footer-group="products">
-            <h2 class="site-footer__heading" id="footer-products">제품</h2>
-            <ul class="sitemap__list">
-              <li>듀오링고</li>
-              <li>Duolingo for Schools</li>
-              <li>Duolingo English Test</li>
-              <li>팟캐스트</li>
-              <li>Duolingo for Business</li>
-              <li>슈퍼 듀오링고</li>
-              <li>슈퍼 듀오링고 선물하기</li>
-              <li>듀오링고 맥스</li>
-            </ul>
-          </section>
-          <section class="sitemap__group" aria-labelledby="footer-apps" data-js-footer-group="apps">
-            <h2 class="site-footer__heading" id="footer-apps">앱</h2>
-            <ul class="sitemap__list">
-              <li>안드로이드용 듀오링고</li>
-              <li>iOS용 듀오링고</li>
-            </ul>
-          </section>
-          <section class="sitemap__group" aria-labelledby="footer-support" data-js-footer-group="support">
-            <h2 class="site-footer__heading" id="footer-support">도움말 및 지원</h2>
-            <ul class="sitemap__list">
-              <li><a href="./notice.html" style="color: inherit; text-decoration: none;">공지사항</a></li>
-              <li>듀오링고 FAQ</li>
-              <li>학교용 듀오링고 FAQ</li>
-              <li>Duolingo English Test FAQ</li>
-              <li>상태</li>
-            </ul>
-          </section>
-          <section class="sitemap__group" aria-labelledby="footer-legal" data-js-footer-group="legal">
-            <h2 class="site-footer__heading" id="footer-legal">개인정보처리방침 및 약관</h2>
-            <ul class="sitemap__list">
-              <li>커뮤니티 지침</li>
-              <li>규정</li>
-              <li>개인정보보호</li>
-            </ul>
-          </section>
-          <section class="sitemap__group" aria-labelledby="footer-social" data-js-footer-group="social">
-            <h2 class="site-footer__heading" id="footer-social">소셜 미디어</h2>
-            <ul class="sitemap__list">
-              <li>블로그</li>
-              <li>Instagram</li>
-              <li>TikTok</li>
-              <li>Twitter</li>
-              <li>YouTube</li>
-              <li>LinkedIn</li>
-            </ul>
-          </section>
-        </div>
-        <section class="part footer-site-language" aria-labelledby="footer-language-title">
-          <h2 class="site-footer__heading footer-site-language__heading" id="footer-language-title">사이트 언어:</h2>
-          <ul class="footer-site-language__list">
-            <li lang="ar" dir="rtl">العربية</li>
-            <li lang="bn">বাংলা</li>
-            <li lang="cs">Čeština</li>
-            <li lang="de">Deutsch</li>
-            <li lang="el">Ελληνικά</li>
-            <li lang="en">English</li>
-            <li lang="es">Español</li>
-            <li lang="fr">Français</li>
-            <li lang="hi">हिंदी</li>
-            <li lang="hu">Magyar</li>
-            <li lang="id">Bahasa Indonesia</li>
-            <li lang="it">Italiano</li>
-            <li lang="ja">日本語</li>
-            <li lang="kn">ಕನ್ನಡ</li>
-            <li lang="ko">한국어</li>
-            <li lang="mr">मराठी</li>
-            <li lang="nl">Nederlands</li>
-            <li lang="pl">Polski</li>
-            <li lang="pt">Português</li>
-            <li lang="ro">Română</li>
-            <li lang="ru">Русский</li>
-            <li lang="sv">svenska</li>
-            <li lang="ta">தமிழ்</li>
-            <li lang="te">తెలుగు</li>
-            <li lang="th">ภาษาไทย</li>
-            <li lang="tl">Tagalog</li>
-            <li lang="tr">Türkçe</li>
-            <li lang="uk">Українською</li>
-            <li lang="ur" dir="rtl">اردو</li>
-            <li lang="vi">Tiếng Việt</li>
-            <li lang="zh">中文</li>
-          </ul>
-        </section>
-      </div>
-    </footer>
+    <!-- 공통 푸터: assets/js/layout (layout-data.js 에서 관리) -->
+    <div data-site-footer></div>
   </body>
 </html>

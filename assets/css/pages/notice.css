@@ -214,6 +214,45 @@
     position: relative;
   }
 
+  /* 게시판 탭 내비게이션 (공지사항 / 1:1 문의하기) */
+  .board-tab-nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 5;
+  }
+
+  .board-tab-nav__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 24px;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #64748b;
+    background-color: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  }
+
+  .board-tab-nav__item:hover {
+    color: #58cc02;
+    border-color: #58cc02;
+    transform: translateY(-2px);
+  }
+
+  .board-tab-nav__item.is-active {
+    background-color: #58cc02;
+    color: #ffffff;
+    border-color: #46a302;
+    box-shadow: 0 3px 0 #46a302;
+  }
+
   .notice-card-wrapper {
     position: relative;
     margin-top: 3.5rem;
